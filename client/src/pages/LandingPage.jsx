@@ -7,17 +7,32 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SlideBook from '../components/landing page/SlideBook'
 import ListBook from '../components/landing page/ListBook'
-
+import IMG from '../../src/assets/img/background.png'
+import Login from '../components/landing page/Login'
+import Register from '../components/landing page/Register'
+import { useStat } from 'react'
 
 function LandingPage() {
 
-  document.body.style.backgroundImage = "   url('../assets/img/background.png')";
+  document.body.style.backgroundImage = IMG;
   document.body.style.backgroundColor="#fff"
+
+  const [openLogin, setOpenLogin] = useState(false);
+
+  const [openRegister, setOpenRegister] =useState(false)
+
+  const handleClickLogin = () => {
+    setOpenLogin(true)
+  }
+
+  const handleOpenRegister = () => {
+    setOpenRegister(true)
+  }
 
   return (
     <div>
       <div className="navbar" style={{display : "flex", height : "7vh"}}>
-          <PublicNavbar/>
+          <PublicNavbar handleClickLogin={handleClickLogin} handleOpenRegister={handleOpenRegister}/>
       </div>
 
       <div className="body"style={{minHeight : "93vh"}}>
