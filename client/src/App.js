@@ -9,6 +9,7 @@ import Transaction from "./pages/transaction";
 import PublicNavbar from "./components/navbar/PublicNavbar";
 import Login from "./components/landing page/Login";
 import Register from "./components/landing page/Register";
+import AdminNavbar from "./components/navbar/AdminNavbar";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Route path="/transaction" element={<Transaction/>}/>
         <Route path="/add-book" element={<AddBook/>}/>
         <Route path="/complain" element={<Complain/>}/>
-        <Route path="/public" element={<PublicNavbar/>}/>
+        <Route path="/public" element={<AdminNavbar/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
       </Routes>

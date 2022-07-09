@@ -17,7 +17,7 @@ function LandingPage() {
   document.body.style.backgroundImage = IMG;
   document.body.style.backgroundColor="#fff"
 
-  const [openLogin, setOpenLogin] = useState(false);
+  const [openLogin, setOpenLogin] = useState(null);
 
   const [openRegister, setOpenRegister] =useState(false)
 
@@ -25,15 +25,19 @@ function LandingPage() {
     setOpenLogin(true)
   }
 
-  const handleOpenRegister = () => {
+  const handleClickRegister = () => {
     setOpenRegister(true)
   }
 
   return (
     <div>
       <div className="navbar" style={{display : "flex", height : "7vh"}}>
-          <PublicNavbar handleClickLogin={handleClickLogin} handleOpenRegister={handleOpenRegister}/>
+          <PublicNavbar handleClickLogin={handleClickLogin} handleClickRegister={handleClickRegister}/>
       </div>
+    
+    { openLogin ? <Login/> : null }
+
+    { openRegister ? <Register/> : null }
 
       <div className="body"style={{minHeight : "93vh"}}>
         <div className="slider" style={{marginLeft : "1%", marginRight : "1%"}}>
