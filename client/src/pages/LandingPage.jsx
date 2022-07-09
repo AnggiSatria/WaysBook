@@ -10,7 +10,7 @@ import ListBook from '../components/landing page/ListBook'
 import IMG from '../../src/assets/img/background.png'
 import Login from '../components/landing page/Login'
 import Register from '../components/landing page/Register'
-import { useStat } from 'react'
+
 
 function LandingPage() {
 

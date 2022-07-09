@@ -2,3 +2,8 @@ body {
     background-image: url('../img/background.png');
 }
 
+::-webkit-file-upload-button {
+    background-image: url('../img/attachGreyVector.png');
+    color: #fff;
+    width: 500;
+}
