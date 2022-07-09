@@ -10,7 +10,7 @@ function DetailBook() {
         <CustomerNavbar/>
       </div>
 
-        <div className="book" style={{minHeight : "93vh"}}>
+        <div className="book" style={{minHeight : "93vh", marginLeft : "10%", marginRight : "10%"}}>
           <Card/>
 
           <About/>
