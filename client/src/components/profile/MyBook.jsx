@@ -62,8 +62,8 @@ function MyBook() {
                         <Typography variant="body2" color="text.secondary">
                         {value.creator}
                         </Typography>
-                    </CardContent>
-                    <CardActions>
+                        </CardContent>
+                        <CardActions>
                         <Button variant="contained" color="inherit" style={{width : "100%"}}>Download</Button>
                     </CardActions>
                 </Card>

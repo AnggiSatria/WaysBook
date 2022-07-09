@@ -2,12 +2,12 @@ import React from 'react'
 import CustomerNavbar from '../components/navbar/CustomerNavbar'
 import Card from "../components/detail book/Card"
 import About from '../components/detail book/About'
-import IMG from "../assets/img/background.png"
 import "../assets/css/bg.css"
+import IMG from '../../src/assets/img/background.png'
 
 function DetailBook() {
 
-  document.body.style.backgroundImage = "url(../assets/img/background.png)";
+  document.body.style.backgroundImage = IMG;
 
   return (
     <div>

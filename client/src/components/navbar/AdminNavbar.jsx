@@ -61,13 +61,6 @@ function AdminNavbar() {
             </div>
 
             <div className="right" style={{display : "flex", flex : "50%", justifyContent : "flex-end", marginRight : "50px", alignItems : "center"}}>
-                <div className="login" style={{marginRight : "50px"}}>
-                  <IconButton aria-label="cart">
-                    <StyledBadge badgeContent={4} color="secondary">
-                      <ShoppingCartIcon />
-                    </StyledBadge>
-                  </IconButton>
-                </div>
 
                 <div className="avatar">
                           <Box sx={{ flexGrow: 0 }}>

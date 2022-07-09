@@ -50,94 +50,68 @@ function SlideBook() {
 
     const card = [
       {
-        img : img,
-        tittle : "",
-        creator : '',
-        desc : '',
-        price : '',
-        name : 'Panduan Masak'
+        img : Img,
+        tittle : "Her Secret",
+        creator : 'By Diah Martiana',
+        desc : 'Lorem',
+        price : 'Rp. 500.000,-',
       },
       {
         img : Img,
-        tittle : "",
-        creator : '',
-        desc : '',
-        price : '',
-        name : 'Panduan Masak'
+        tittle : "Her Secret",
+        creator : 'By Diah Martiana',
+        desc : 'Lorem',
+        price : 'Rp. 500.000,-',
       },
       {
-        img : img,
-        tittle : "",
-        creator : '',
-        desc : '',
-        price : '',
-        name : 'Panduan Masak'
+        img : Img,
+        tittle : "Her Secret",
+        creator : 'By Diah Martiana',
+        desc : 'Lorem',
+        price : 'Rp. 500.000,-',
       },
       {
-        img : img,
-        tittle : "",
-        creator : '',
-        desc : '',
-        price : '',
-        name : 'Panduan Masak'
+        img : Img,
+        tittle : "Her Secret",
+        creator : 'By Diah Martiana',
+        desc : 'Lorem',
+        price : 'Rp. 500.000,-',
       },
       {
-        img : img,
-        tittle : "",
-        creator : '',
-        desc : '',
-        price : '',
-        name : 'Panduan Masak'
+        img : Img,
+        tittle : "Her Secret",
+        creator : 'By Diah Martiana',
+        desc : 'Lorem',
+        price : 'Rp. 500.000,-',
       },
       {
-        img : img,
-        tittle : "",
-        creator : '',
-        desc : '',
-        price : '',
-        name : 'Panduan Masak'
+        img : Img,
+        tittle : "Her Secret",
+        creator : 'By Diah Martiana',
+        desc : 'Lorem',
+        price : 'Rp. 500.000,-',
       },
       {
-        img : img,
-        tittle : "",
-        creator : '',
-        desc : '',
-        price : '',
-        name : 'Panduan Masak'
+        img : Img,
+        tittle : "Her Secret",
+        creator : 'By Diah Martiana',
+        desc : 'Lorem',
+        price : 'Rp. 500.000,-',
       },
       {
-        img : img,
-        tittle : "",
-        creator : '',
-        desc : '',
-        price : '',
-        name : 'Panduan Masak'
+        img : Img,
+        tittle : "Her Secret",
+        creator : 'By Diah Martiana',
+        desc : 'Lorem',
+        price : 'Rp. 500.000,-',
       },
       {
-        img : img,
-        tittle : "",
-        creator : '',
-        desc : '',
-        price : '',
-        name : 'Panduan Masak'
+        img : Img,
+        tittle : "Her Secret",
+        creator : 'By Diah Martiana',
+        desc : 'Lorem',
+        price : 'Rp. 500.000,-',
       },
-      {
-        img : img,
-        tittle : "",
-        creator : '',
-        desc : '',
-        price : '',
-        name : 'Panduan Masak'
-      },
-      {
-        img : img,
-        tittle : "",
-        creator : '',
-        desc : '',
-        price : '',
-        name : 'Panduan Masak'
-      },
-      
     ]
 
   return (
@@ -150,15 +124,19 @@ function SlideBook() {
         <Slider {...settings}>
           {card.map((value) => {
             return <div style={{display : "flex", width : "100%"}}>
-                <div className="img" style={{width : "50%", display : "flex"}}>
-                  <img src={value.img} alt="" style={{width : '170px'}}/>
-                </div>
+              <div className="all" style={{display : "flex", flex : "50%"}}>
+                  <div className="img" style={{display : "flex", marginLeft : "1%", marginRight : "1%"}}>
+                    <img src={value.img} alt="" style={{width : '150px'}}/>
+                  </div>
 
-                <div className="card" style={{width : "50%", display : "flex", width : '100px', marginTop : "20px"}}>
-                  <h4 style={{color : "black"}}>{value.tittle}</h4>
-                  <h4 style={{color : "black"}}>{value.name}</h4>
-                </div>
-              
+                  <div className="card" style={{display : "flex", width : '180px', marginLeft : "1%", marginRight : "1%", border : "none"}}>
+                    <h5 style={{color : "black", wordWrap : 'break-word'}}>{value.tittle}</h5>
+                    <p>{value.creator}</p>
+                    <p style={{wordWrap : "break-word"}}>{value.desc}</p>
+                    <h5 style={{color : "black"}}>{value.price}</h5>
+                    <Button variant="contained" color="inherit">Add To Cart</Button>
+                  </div>
+              </div>           
             </div>
           })}
         </Slider>
