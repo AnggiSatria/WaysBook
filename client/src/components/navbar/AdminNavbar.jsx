@@ -10,20 +10,17 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
+import Avatar from 'react-avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LogoutIcon from '@mui/icons-material/Logout';
-import SmsIcon from '@mui/icons-material/Sms';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { useNavigate } from "react-router-dom";
+import IconBook from "../../assets/img/bookGrey.png"
+import IconComplain from "../../assets/img/chatGrey.png"
+import IconLogout from "../../assets/img/logoutRed.png"
+import { Nav } from "react-bootstrap";
 
-const settings = [ 'Add Book', 'Complain', 'Logout' ];
+// const settings = [ 'Add Book', 'Complain', 'Logout' ];
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -52,23 +49,23 @@ function AdminNavbar() {
     navigate('/')
   }
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  // const [anchorElNav, setAnchorElNav] = React.useState(null);
+  // const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  // const handleOpenNavMenu = (event) => {
+  //   setAnchorElNav(event.currentTarget);
+  // };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  // const handleCloseNavMenu = () => {
+  //   setAnchorElNav(null);
+  // };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null);
+  // };
 
   return (
     <div style={{display : "flex", width : "100%"}}>
@@ -76,40 +73,52 @@ function AdminNavbar() {
                 <img src={IMG} alt="" />
             </div>
 
-            <div className="right" style={{display : "flex", flex : "50%", justifyContent : "flex-end", marginRight : "50px", alignItems : "center"}}>
+              <div className="right" style={{display : "flex", flex : "50%", justifyContent : "flex-end", marginRight : "50px", alignItems : "center"}}>
 
                 <div className="avatar">
-                          <Box sx={{ flexGrow: 0 }}>
-                      <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                          <Avatar src="/static/images/avatar/2.jpg" />
-                        </IconButton>
-                      </Tooltip>
-                      <Menu
-                        sx={{ mt: '45px', width : 300 }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                      >
-                        {settings.map((setting) => (
-                          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">{setting}</Typography>
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    </Box>
+                <Nav.Item className='ms-3 avatarIcon'>
+                                <div className='dropdown'>
+                                    <button
+                                        id="dropdownMenu"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        type="button"
+                                        className='btnDropDown'
+                                        style={{border : 'none', background : "transparent"}}
+                                    >
+                                        <Avatar
+                                            color="#3A3A3A"
+                                            name="Anonim"
+                                            size="50"
+                                            src="https://e7.pngegg.com/pngimages/565/454/png-clipart-user-computer-icons-anonymity-head-miscellaneous-face.png"
+                                            round={true}
+                                        />
+                                    </button>
+                                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu">
+                                        <li>
+                                            <button className="dropdown-item textTitle fs-5" type="button" onClick={addBook}>
+                                                <img src={IconBook} style={{ width: "25px", height: "25px" }} alt="IconProfile" />
+                                                {" "}Add Book
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button className="dropdown-item textTitle fs-5" type="button" onClick={complain}>
+                                                <img src={IconComplain} style={{ width: "25px", height: "25px" }} alt="IconComplain" />
+                                                {" "}Complain
+                                            </button>
+                                        </li>
+                                        <li><hr className="dropdown-divider" /></li>
+                                        <li>
+                                            <button className="dropdown-item textTitle fs-5" type="button" onClick={logout}>
+                                                <img src={IconLogout} style={{ width: "25px", height: "25px" }} alt="IconLogout" />
+                                                {" "}Logout
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                    </Nav.Item>
                 </div>
-                </div>
+              </div>
             </div>
   );
 }

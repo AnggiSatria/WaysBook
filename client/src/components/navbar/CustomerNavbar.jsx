@@ -10,20 +10,25 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LogoutIcon from '@mui/icons-material/Logout';
-import SmsIcon from '@mui/icons-material/Sms';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+// import LogoutIcon from '@mui/icons-material/Logout';
+// import SmsIcon from '@mui/icons-material/Sms';
+// import MenuBookIcon from '@mui/icons-material/MenuBook';
 import img from "../../assets/img/cart2.png"
+import { useNavigate } from "react-router-dom";
+import { Nav } from "react-bootstrap";
+import IconProfile from "../../assets/img/customer.png"
+import IconComplain from "../../assets/img/chatGrey.png"
+import IconLogout from "../../assets/img/logoutRed.png"
+import Avatar from "react-avatar"
+import Profile from "../../pages/profile";
 
-const settings = ['Add Book', 'Complain', 'Logout'];
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -37,23 +42,55 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 function CustomerNavbar() {
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  const profile = () => {
+    navigate('/profile')
+  }
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  const complain = () => {
+    navigate('/complain')
+  }
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const logout = () => {
+    navigate('/')
+  }
+
+  // const settings = [ 
+  //     'Add Book',
+  //     'Complain',
+  //     'Logout'
+  //  ];
+
+  // //  if(settings[0]){
+  // //     addBook()
+  // //  }
+
+  // //  if(settings[1]){
+  // //   complain()
+  // //  }
+
+  // //  if(settings[2]){
+  // //   logout()
+  // //  }
+
+  // const [anchorElNav, setAnchorElNav] = React.useState(null);
+  // const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  // const handleOpenNavMenu = (event) => {
+  //   setAnchorElNav(event.currentTarget);
+  // };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
+
+  // const handleCloseNavMenu = () => {
+  //   setAnchorElNav(null);
+  // };
+
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null);
+  // };
 
   return (
     <div style={{display : "flex", width : "100%"}}>
@@ -67,35 +104,47 @@ function CustomerNavbar() {
                 </div>
 
                 <div className="avatar">
-                          <Box sx={{ flexGrow: 0 }}>
-                      <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                          <Avatar src="/static/images/avatar/2.jpg" />
-                        </IconButton>
-                      </Tooltip>
-                      <Menu
-                        sx={{ mt: '45px', width : 300 }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                      >
-                        {settings.map((setting) => (
-                          <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">{setting}</Typography>
-                          </MenuItem>
-                        ))}
-                      </Menu>
-                    </Box>
+                    <Nav.Item className='ms-3 avatarIcon'>
+                                <div className='dropdown'>
+                                    <button
+                                        id="dropdownMenu"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        type="button"
+                                        className='btnDropDown'
+                                        style={{border : 'none', background : "transparent"}}
+                                    >
+                                        <Avatar
+                                            color="#3A3A3A"
+                                            name="Anonim"
+                                            size="50"
+                                            src="https://e7.pngegg.com/pngimages/565/454/png-clipart-user-computer-icons-anonymity-head-miscellaneous-face.png"
+                                            round={true}
+                                        />
+                                    </button>
+                                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu">
+                                        <li>
+                                            <button className="dropdown-item textTitle fs-5" type="button" onClick={profile}>
+                                                <img src={IconProfile} style={{ width: "25px", height: "25px" }} alt="IconProfile" />
+                                                {" "}Profile
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button className="dropdown-item textTitle fs-5" type="button" onClick={complain}>
+                                                <img src={IconComplain} style={{ width: "25px", height: "25px" }} alt="IconComplain" />
+                                                {" "}Complain
+                                            </button>
+                                        </li>
+                                        <li><hr className="dropdown-divider" /></li>
+                                        <li>
+                                            <button className="dropdown-item textTitle fs-5" type="button" onClick={logout}>
+                                                <img src={IconLogout} style={{ width: "25px", height: "25px" }} alt="IconLogout" />
+                                                {" "}Logout
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                    </Nav.Item>
                 </div>
                 </div>
             </div>

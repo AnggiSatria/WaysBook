@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClient,  QueryClientProvider} from "react-query";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { UserContextProvider } from "./context/userContext";
 
 const client = new QueryClient();

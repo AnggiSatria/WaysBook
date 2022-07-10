@@ -11,7 +11,7 @@ function Card() {
         <div className="right" style={{display : 'flex' ,flex : "50%", flexDirection : 'column', marginLeft : "1%", height : "400px"}}>
             <div className="tittle" >
                 <h2 style={{wordWrap : "break-word"}}>Her Secret</h2>
-                <p style={{wordWrap : "break-word"}}>Diah Martiana</p>
+                <p style={{wordWrap : "break-word"}}>By Diah Martiana</p>
             </div>
 
             <div className="Publication" style={{marginTop : "30px"}}>
@@ -25,13 +25,13 @@ function Card() {
             </div>
 
             <div className="code" style={{marginTop : "30px"}}>
-                <h4>ISBN</h4>
+                <h4 style={{color : "rgba(222, 55, 40, 0.9)"}}>ISBN</h4>
                 <p style={{wordWrap : "break-word"}}>99999991777777</p>
             </div>
 
             <div className="price" style={{marginTop : "30px"}}>
                 <h4>Price</h4>
-                <p>Rp.500.000,-</p>
+                <p style={{color : "rgba(65, 222, 40, 0.85)"}}>Rp.500.000,-</p>
             </div>
         </div>
     </div>
