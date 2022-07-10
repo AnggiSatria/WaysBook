@@ -1,46 +1,49 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import cssModule from "../assets/css/AdminComplain.module.css";
-import avatarIcon from "../assets/img/userBlack.png";
+import { Container, Row, Col } from "react-bootstrap";
+import cssModule from "../assets/css/Complain.module.css";
+import avatarIcon from "../assets/img/Untitled_design-removebg-preview.png";
 import background from "../assets/img/background.png";
 import sendIcon from "../assets/img/sendIconBlack.png";
-import NavbarAdmin from "../components/navbar/NavbarAdmin";
+import NavbarUser from "../components/navbar/NavbarUser";
 import { UserContext } from "../context/userContext";
 import { io } from "socket.io-client";
 import logOn from "../assets/img/Ellipse_4.png";
 
 let socket;
 
-function AdminComplain() {
-  document.title = "WaysBook | Complain Page";
+function Complain() {
+  document.title = `WaysBook | Complain Page`;
 
-  const [state] = useContext(UserContext);
-  const [contact, setContact] = useState(null);
-  const [contacts, setContacts] = useState([]);
+  const [contact, setContact] = useState({});
   const [messages, setMessages] = useState([]);
   const [online, setOnline] = useState(false);
   const [form, setForm] = useState({
     chatM: "",
   });
 
+  const title = "Complain admin";
+  document.title = "DumbMerch | " + title;
+
+  const [state] = useContext(UserContext);
+
   useEffect(() => {
-    socket = io(process.env.REACT_APP_SOCKET_URL || "http://localhost:5000/", {
+    socket = io(process.env.REACT_APP_SOCKET_URL || "http://localhost:5000", {
       auth: {
         token: localStorage.getItem("token"),
       },
+      // code here
     });
 
     socket.on("new message", () => {
       socket.emit("load messages", contact?.id);
     });
 
-    loadContact();
-    console.log(contacts);
-    loadMessages();
-
+    // listen error sent from server
     socket.on("connect_error", (err) => {
-      console.error(err.message);
+      console.error(err.message); // not authorized
     });
+
+    loadMessages();
 
     if (!messages[messages.length - 1]?.message) {
       setOnline(false);
@@ -51,7 +54,7 @@ function AdminComplain() {
     return () => {
       socket.disconnect();
     };
-  }, [messages]);
+  }, [form, messages]); // code here
 
   const handleChange = (e) => {
     setForm({
@@ -60,32 +63,23 @@ function AdminComplain() {
     });
   };
 
-  const loadContact = () => {
-    socket.emit("load customer contact");
+  // used for active style when click contact
+  const onClickContact = () => {
+    socket.emit("load admin contact");
 
-    socket.on("customer contact", (data) => {
-      let dataContacts = data.map((item) => ({
-        ...item,
-        message: "Click here to start message",
-      }));
-      setContacts(dataContacts);
+    socket.on("admin contact", (data) => {
+      setContact(data);
     });
-  };
 
-  const onClickContact = (data) => {
-    console.log(data);
-    setContact(data);
-    socket.emit("load messages", data.id);
+    socket.emit("load messages", contact.id);
   };
 
   const loadMessages = () => {
     socket.on("messages", (data) => {
-      console.log(data);
       if (data.length > 0) {
         const dataMessages = data.map((item) => ({
           idSender: item.sender.id,
           message: item.message,
-          idRecipient: item.recipient.id,
         }));
         console.log(dataMessages);
         setMessages(dataMessages);
@@ -101,6 +95,7 @@ function AdminComplain() {
         idRecipient: contact.id,
         message: e.target.value,
       };
+
       if (data.message) {
         socket.emit("send message", data);
         form.chatM = "";
@@ -138,142 +133,101 @@ function AdminComplain() {
         backgroundColor: "#E5E5E5",
         backgroundImage: `url(${background})`,
         backgroundSize: "100%",
-        height: `${contact ? "100%" : "100vh"}`,
-        paddingBottom: "70px",
+        height: "100%",
+        paddingTop: "10px",
+        paddingBottom: "37px",
       }}
     >
-      <NavbarAdmin hOff={handleOffline} />
-      <Container className={cssModule.AdminComplain}>
-        <h1>Customer Complain</h1>
-        <Row>
-          <Col className={cssModule.contactContainer} sm={3}>
-            {contacts.map((item, index) => (
-              <Row
-                style={{
-                  alignItems: "center",
-                  borderBottom: "1px solid #A7A5A5",
-                  width: "90%",
-                  margin: "15px auto 15px auto",
-                  paddingBottom: "10px",
-                  cursor: "pointer",
-                }}
-                onClick={() => onClickContact(item)}
-                key={index}
-              >
-                <Col sm={2}>
-                  <img
-                    src={item.profile.avatar ? item.profile.avatar : avatarIcon}
-                    alt=""
-                  />
-                </Col>
-                <Col sm={10}>
-                  <p>{item.name}</p>
-                </Col>
-              </Row>
-            ))}
+      <NavbarUser hOff={handleOffline} />
+      <Container>
+        <Row sm={2} className={cssModule.chatBoxHeader}>
+          <Col sm={1}>
+            <img src={avatarIcon} alt="" />
           </Col>
-          {contact ? (
-            <Col sm={8} className={cssModule.chatBox}>
-              <Row sm={2} className={cssModule.chatBoxHeader}>
-                <Col sm={1}>
-                  <img
-                    src={
-                      contact.profile.avatar
-                        ? contact.profile.avatar
-                        : avatarIcon
-                    }
-                    alt=""
-                  />
-                </Col>
-                <Col sm={11}>
-                  <p>{contact.name}</p>
-                  {online && (
-                    <p // Tandain ini onlennnnnnnnnnnnn
-                      style={{
-                        fontSize: "11px",
-                      }}
-                    >
-                      <img
-                        style={{
-                          width: "10px",
-                          height: "10px",
-                        }}
-                        src={logOn}
-                        alt=""
-                      />{" "}
-                      Online
-                    </p>
-                  )}
-                </Col>
-              </Row>
-              <Row sm={10} className={cssModule.chatBoxBody}>
-                <div
-                  id="chat-messages"
-                  style={{ height: "60vh" }}
-                  className="overflow-auto px-3 py-2"
-                >
-                  {messages.map((item, index) => (
-                    <div key={index}>
-                      <div
-                        className={`d-flex py-1 ${
-                          item.idSender === state.user.id
-                            ? "justify-content-end"
-                            : "justify-content-start"
-                        }`}
-                      >
-                        <div
-                          className={
-                            item.idSender === state.user.id
-                              ? cssModule.chatMe
-                              : cssModule.chatOther
-                          }
-                        >
-                          {item.message}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <Row
+          <Col sm={11}>
+            <p>Admin</p>
+            {online && (
+              <p // Tandain ini onlennnnnnnnnnnnn
+                style={{
+                  fontSize: "11px",
+                }}
+              >
+                <img
                   style={{
-                    height: "10%",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    width: "10px",
+                    height: "10px",
                   }}
-                  className={cssModule.chatSend}
+                  src={logOn}
+                  alt=""
+                />{" "}
+                Online
+              </p>
+            )}
+          </Col>
+        </Row>
+        <Row sm={10} className={cssModule.chatBoxBody}>
+          <div
+            id="chat-messages"
+            style={{ height: "70vh" }}
+            className="overflow-auto px-3 py-2"
+          >
+            {messages.map((item, index) => (
+              <div key={index}>
+                <div
+                  className={`d-flex py-1 ${
+                    item.idSender === state.user.id
+                      ? "justify-content-end"
+                      : "justify-content-start"
+                  }`}
                 >
-                  <Col sm={11}>
-                    <input
-                      type="text"
-                      name="chatM"
-                      onChange={handleChange}
-                      value={form.chatM}
-                      onKeyPress={onSendMessage}
-                      placeholder="Write your message here ..."
-                    />
-                  </Col>
-                  <Col
-                    style={{
-                      padding: "0px",
-                    }}
-                    sm={1}
+                  <div
+                    className={
+                      item.idSender === state.user.id
+                        ? cssModule.chatMe
+                        : cssModule.chatOther
+                    }
                   >
-                    <button onClick={handleSubmit}>
-                      <img src={sendIcon} alt="" />
-                    </button>
-                  </Col>
-                </Row>
-              </Row>
+                    {item.message}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <Row
+            style={{
+              height: "10%",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+            className={cssModule.chatSend}
+          >
+            <Col sm={11}>
+              <input
+                type="text"
+                name="chatM"
+                value={form.chatM}
+                onClick={onClickContact}
+                onChange={handleChange}
+                onKeyPress={onSendMessage}
+                placeholder="Start typing to load message ..."
+              />
             </Col>
-          ) : (
-            <Col>
-              <h1>Click customer to start message</h1>
+            <Col
+              style={{
+                padding: "0px",
+              }}
+              sm={1}
+            >
+              <button onClick={handleSubmit}>
+                <img src={sendIcon} alt="" />
+              </button>
             </Col>
-          )}
+          </Row>
         </Row>
       </Container>
     </div>
   );
 }
 
-export default AdminComplain;
+export default Complain;

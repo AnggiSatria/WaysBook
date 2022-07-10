@@ -21,8 +21,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SmsIcon from '@mui/icons-material/Sms';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { useNavigate } from "react-router-dom";
 
-const settings = ['Add Book', 'Complain', 'Logout'];
+const settings = [ 'Add Book', 'Complain', 'Logout' ];
+
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -35,6 +37,20 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 
 function AdminNavbar() {
+
+  const navigate = useNavigate()
+
+  const addBook = () => {
+    navigate('/add-book')
+  }
+
+  const complain = () => {
+    navigate('/complain')
+  }
+
+  const logout = () => {
+    navigate('/')
+  }
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);

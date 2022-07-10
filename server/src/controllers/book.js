@@ -7,7 +7,9 @@ exports.promoBooks = async (req, res) => {
     let data = await book.findAll({
       where: {
         price: {
+            // Operator Less than or Equal ( <= ) kurang dari atau sama dengan 
           [Op.lte]: 55000,
+          // Akan Menampilkan data atau value yang lebih dari nominal yang di tentukan 
         },
       },
     });
@@ -39,7 +41,7 @@ exports.getBooks = async (req, res) => {
             raw: true,
             where: {
                 price: {
-                    //Operator than or equal operator ( >= ) lebih dari atau sama dengan
+                    //Operator Greater than or equal operator ( >= ) lebih dari atau sama dengan
                     [Op.gte]: 10,
                     //Akan menampilkan data atau value yang lebih dari 10 atau sama dengan 10
                 },
@@ -202,8 +204,7 @@ exports.deleteBook = async (req, res) => {
         })
 
         res.send({
-            status: "Success",
-            data,
+            status: "Success"
           });
 
 

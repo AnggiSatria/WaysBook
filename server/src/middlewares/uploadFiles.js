@@ -1,6 +1,7 @@
 const multer = require("multer");
 
 exports.uploadFiles = (bookPdf, bookImg) => {
+
   // Destination & rename file
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -15,7 +16,7 @@ exports.uploadFiles = (bookPdf, bookImg) => {
     },
   });
 
-  // Filter extension file
+  // Filter extension file Image
   const fileFilter = function (req, file, cb) {
     if (file.fieldname == bookImg) {
       if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/)) {
@@ -26,6 +27,7 @@ exports.uploadFiles = (bookPdf, bookImg) => {
       }
     }
 
+    //Filter extension file pdf
     if (file.fieldname == bookPdf) {
       if (!file.originalname.match(/\.(pdf|PDF)$/)) {
         req.fileValidationError = {
@@ -37,8 +39,7 @@ exports.uploadFiles = (bookPdf, bookImg) => {
     cb(null, true);
   };
 
-  // Maximum file size
-  // MB -> KB -> byte
+  // Maximum file size MB -> KB -> byte
   const sizeInMB = 10;
   const maxSize = sizeInMB * 1024 * 1000;
 
