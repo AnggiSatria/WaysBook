@@ -21,7 +21,7 @@ function App() {
         <Route path="/cart" element={<Cart/>}/>
         <Route path="/transaction" element={<Transaction/>}/>
         <Route path="/add-book" element={<AddBook/>}/>
-        <Route path="/complain" element={<Complain/>}/>
+        <Route path="/complain-admin" element={<Complain/>}/>
         <Route path="/public" element={<AdminNavbar/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>

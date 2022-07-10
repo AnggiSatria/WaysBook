@@ -13,11 +13,11 @@ function PublicNavbar(props) {
 
             <div className="right" style={{display : "flex", flex : "50%", justifyContent : "flex-end", marginRight : "50px", alignItems : "center"}}>
                 <div className="login" style={{marginRight : "20px"}}>
-                    <Button variant="outlined" color="inherit" onClick={props.handleClickLogin}>Login</Button>
+                    <Button variant="outlined" color="inherit" onClick={props.handleShow}>Login</Button>
                 </div>
 
                 <div className="register">
-                    <Button variant="contained" color="inherit"  onClick={props.handleClickRegister}>Register</Button>
+                    <Button variant="contained" color="inherit"  onClick={props.handleShowRegister}>Register</Button>
                 </div>
             </div>
     </div>
