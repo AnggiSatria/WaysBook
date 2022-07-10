@@ -8,6 +8,7 @@ import NavbarUser from "../components/navbar/NavbarUser";
 import { UserContext } from "../context/userContext";
 import { io } from "socket.io-client";
 import logOn from "../assets/img/Ellipse_4.png";
+import CustomerNavbar from "../components/navbar/CustomerNavbar"
 
 let socket;
 
@@ -138,8 +139,12 @@ function Complain() {
         paddingBottom: "37px",
       }}
     >
-      <NavbarUser hOff={handleOffline} />
-      <Container>
+      
+    <nav>
+        <CustomerNavbar/>
+    </nav>
+
+      <Container style={{marginTop : "50px"}}>
         <Row sm={2} className={cssModule.chatBoxHeader}>
           <Col sm={1}>
             <img src={avatarIcon} alt="" />

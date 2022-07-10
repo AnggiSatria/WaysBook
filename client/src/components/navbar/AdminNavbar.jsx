@@ -19,6 +19,7 @@ import IconBook from "../../assets/img/bookGrey.png"
 import IconComplain from "../../assets/img/chatGrey.png"
 import IconLogout from "../../assets/img/logoutRed.png"
 import { Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 // const settings = [ 'Add Book', 'Complain', 'Logout' ];
 
@@ -42,7 +43,7 @@ function AdminNavbar() {
   }
 
   const complain = () => {
-    navigate('/complain')
+    navigate('/admin-complain')
   }
 
   const logout = () => {
@@ -70,7 +71,7 @@ function AdminNavbar() {
   return (
     <div style={{display : "flex", width : "100%"}}>
             <div className="left" style={{marginLeft : "50px", flex : "50%", alignItems : "center", display : "flex"}}>
-                <img src={IMG} alt="" />
+                <Link to="/"><img src={IMG} alt="" /></Link>
             </div>
 
               <div className="right" style={{display : "flex", flex : "50%", justifyContent : "flex-end", marginRight : "50px", alignItems : "center"}}>

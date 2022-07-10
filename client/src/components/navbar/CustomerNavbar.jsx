@@ -28,6 +28,7 @@ import IconComplain from "../../assets/img/chatGrey.png"
 import IconLogout from "../../assets/img/logoutRed.png"
 import Avatar from "react-avatar"
 import Profile from "../../pages/profile";
+import { Link } from "react-router-dom";
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -95,12 +96,12 @@ function CustomerNavbar() {
   return (
     <div style={{display : "flex", width : "100%"}}>
             <div className="left" style={{marginLeft : "50px", flex : "50%", alignItems : "center", display : "flex"}}>
-                <img src={IMG} alt="" />
+                <Link to="/"><img src={IMG} alt="" /></Link>
             </div>
 
             <div className="right" style={{display : "flex", flex : "50%", justifyContent : "flex-end", marginRight : "50px", alignItems : "center"}}>
                 <div className="carosel" style={{marginRight : "50px"}}>
-                  <img src={img} alt="" />
+                  <Link to="/cart"><img src={img} alt="" /></Link>
                 </div>
 
                 <div className="avatar">

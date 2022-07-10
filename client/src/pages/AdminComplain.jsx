@@ -8,6 +8,7 @@ import NavbarAdmin from "../components/navbar/NavbarAdmin";
 import { UserContext } from "../context/userContext";
 import { io } from "socket.io-client";
 import logOn from "../assets/img/Ellipse_4.png";
+import AdminNavbar from "../components/navbar/AdminNavbar"
 
 let socket;
 
@@ -142,8 +143,12 @@ function AdminComplain() {
         paddingBottom: "70px",
       }}
     >
-      <NavbarAdmin hOff={handleOffline} />
-      <Container className={cssModule.AdminComplain}>
+      
+      <nav>
+        <AdminNavbar/>
+      </nav>
+
+      <Container className={cssModule.AdminComplain} style={{narginTop : "100px"}}>
         <h1>Customer Complain</h1>
         <Row>
           <Col className={cssModule.contactContainer} sm={3}>
