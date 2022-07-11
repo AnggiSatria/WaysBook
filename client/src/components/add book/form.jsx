@@ -106,6 +106,8 @@ function Form() {
 
                 <TextField name='publication' value={addBook.year} onChange={handleOnChange} id="outlined-basic" label="Publication Date" variant="outlined" style={{width : "96%"}}/>
 
+                <TextField name='author' value={addBook.author} onChange={handleOnChange} id="outlined-basic" label="Author" variant="outlined" style={{width : "96%"}}/>
+
                 <TextField name='pages' value={addBook.pages} onChange={handleOnChange} id="outlined-basic" label="Pages" variant="outlined" style={{width : "96%"}}/>
 
                 <TextField name='ISBN' value={addBook.ISBN} onChange={handleOnChange} id="outlined-basic" label="ISBN" variant="outlined" style={{width : "96%"}}/>
