@@ -11,13 +11,21 @@ import IMG from '../../src/assets/img/background.png'
 import { Button, Modal, Form } from 'react-bootstrap'
 import { Box, TextField } from '@mui/material'
 import { Link } from 'react-router-dom';
-import users from '../Dummy Data/user'
+import { useMutation } from 'react-query';
+import { API } from "../config/api"
+import { UserContext } from '../context/userContext'
+import { Alert } from 'react-bootstrap'
+import { useContext } from 'react'
 
 
 function LandingPage() {
 
   document.body.style.backgroundImage = IMG;
   document.body.style.backgroundColor="#fff"
+
+  const [state, dispatch] = useContext(UserContext);
+  
+  const [message, setMessage] = useState(null);
 
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -33,6 +41,8 @@ function LandingPage() {
     password : ""
   })
 
+  console.log(login);
+
   const handleOnLogin = (e) => {
     setLogin({
       ...login,
@@ -40,13 +50,63 @@ function LandingPage() {
     })
   }
 
-  const handleSubmitLogin = (e) => {
-    e.preventDefault()
-    console.log(login)
-  }
+  const handleSubmitLogin = useMutation(async (e) => {
+
+    try {
+      
+      e.preventDefault()
+      console.log(login)
+
+      const config = {
+        headers: {
+            'Content-type': 'application/json',
+        },
+    };
+
+    // Data body
+    const body = JSON.stringify(login);
+
+    // Insert data for login process
+    const response = await API.post('/login', body, config);
+
+    console.log(response);
+
+    // Checking process
+    if (response?.status === 200) {
+        // Send data to useContext
+        dispatch({
+            type: 'LOGIN_SUCCESS',
+            payload: response.data.data,
+        });
+
+        // Status check
+        // if (response.data.data.status === 'Admin') {
+        //     navigate('/admin');
+        // } else {
+        //     navigate('/user');
+        // }
+
+        const alert = (
+            <Alert variant="success" className="py-1">
+                Login success
+            </Alert>
+        );
+        setMessage(alert);
+    }
+} catch (error) {
+    const alert = (
+        <Alert variant="danger" className="py-1">
+            Login failed
+        </Alert>
+    );
+    setMessage(alert);
+    console.log(error);
+}
+
+  })
 
   const [register, setRegister] = useState({
-    fullname : "",
+    name : "",
     email : "", 
     password : ""
   })
@@ -58,10 +118,51 @@ function LandingPage() {
     })
   }
 
-  const handleSubmitRegister = (e) =>{
-    e.preventDefault()
+  const handleSubmitRegister = useMutation(async(e) =>{
+    try {
+      e.preventDefault()
     console.log(register)
+    
+    const config = {
+      headers: {
+          'Content-type': 'application/json',
+      },
+  };
+
+  // Data body
+  const body = JSON.stringify(register);
+console.log(body);
+  // Insert data user to database
+  const response = await API.post('/register', body, config);
+console.log(response);
+  // Notification
+  if (response.data.status === 'Success') {
+      const alert = (
+          <Alert variant="success" className="py-1">
+              Success
+          </Alert>
+      );
+      setMessage(alert);
+      
+  } else {
+      const alert = (
+          <Alert variant="danger" className="py-1">
+              Failed
+          </Alert>
+      );
+      setMessage(alert);
   }
+} catch (error) {
+  const alert = (
+      <Alert variant="danger" className="py-1">
+          Failed
+      </Alert>
+  );
+  setMessage(alert);
+  console.log(error);
+}
+    
+  })
 
   const navigate = useNavigate();
 
@@ -93,7 +194,8 @@ function LandingPage() {
           
             <Modal.Body style={{padding : "20px"}}>
               <h1>Login</h1>
-              <Form onSubmit={handleSubmitLogin}>
+              {message}
+              <Form onSubmit={(e) => handleSubmitLogin.mutate(e)}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Box
               component="form"
@@ -132,7 +234,8 @@ function LandingPage() {
           
             <Modal.Body style={{padding : "20px"}}>
               <h1>Register</h1>
-              <Form onSubmit={handleSubmitRegister}>
+              {message}
+              <Form onSubmit={(e) => handleSubmitRegister.mutate(e)}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Box
               component="form"
@@ -156,7 +259,7 @@ function LandingPage() {
               onChange={handleOnRegister}
             />
 
-              <TextField name='fullname' value={register.fullname} onChange={handleOnRegister} id="outlined-basic" label="Fullname" variant="outlined" style={{width : "96%"}}/>
+              <TextField name='name' value={register.name} onChange={handleOnRegister} id="outlined-basic" label="Fullname" variant="outlined" style={{width : "96%"}}/>
             </Box>
 
             <Button type='submit' variant="dark" style={{width : "96%", marginLeft : "7px", height : "50px"}}>Register</Button>

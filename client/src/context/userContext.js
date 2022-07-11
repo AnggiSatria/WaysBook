@@ -13,7 +13,7 @@ const reducer = (state, action) => {
   switch (type) {
     case "USER_SUCCESS":
     case "LOGIN_SUCCESS":
-      localStorage.setItem("token", payload.token);
+      localStorage.setItem("token", payload.user.token);
       return {
         isLogin: true,
         user: payload,
@@ -34,6 +34,7 @@ const reducer = (state, action) => {
       throw new Error();
   }
 };
+
 
 export const UserContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);

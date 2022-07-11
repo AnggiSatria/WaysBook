@@ -29,7 +29,7 @@ import IconLogout from "../../assets/img/logoutRed.png"
 import Avatar from "react-avatar"
 import Profile from "../../pages/profile";
 import { Link } from "react-router-dom";
-
+import { useState } from "react";
 
 
 function CustomerNavbar() {
@@ -48,6 +48,8 @@ function CustomerNavbar() {
     navigate('/')
   }
 
+  const [carts, setCarts] = useState([]);
+
 
   return (
     <div style={{display : "flex", width : "100%"}}>
@@ -57,7 +59,10 @@ function CustomerNavbar() {
 
             <div className="right" style={{display : "flex", flex : "50%", justifyContent : "flex-end", marginRight : "50px", alignItems : "center"}}>
                 <div className="carosel" style={{marginRight : "50px"}}>
-                  <Link to="/cart"><img src={img} alt="" /></Link>
+                  <Badge badgeContent={''} color="error">
+                    <Link to="/cart"><img src={img} alt="" /></Link>
+                  </Badge>
+                  
                 </div>
 
                 <div className="avatar">

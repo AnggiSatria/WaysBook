@@ -7,7 +7,7 @@ import IMG5 from "../../assets/img/avatar.PNG"
 import { Box, TextField } from '@mui/material'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Modal, Form } from "react-bootstrap"
+import { Modal, Form, Row, Col } from "react-bootstrap"
 import { Button } from "react-bootstrap"
 import cssModule from "../../assets/css/EditProfile.module.css"
 
@@ -20,12 +20,16 @@ function Profiles() {
     const [preview, setPreview] = useState(null); //For image preview
 
     const [form, setForm] = useState({
-        name: '',
-        image: '',
-        desc: '',
-        price: '',
-        qty: ''
+        gender: '',
+        phone: '',
+        address: '',
+        image: ''
     });
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log(form);
+    }
 
     const handleChange = (e) => {
         setForm({
@@ -98,7 +102,7 @@ function Profiles() {
           
             <Modal.Body style={{padding : "20px"}}>
               <h1>Edit Profile</h1>
-              <Form >
+              <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Box
               component="form"
@@ -109,37 +113,11 @@ function Profiles() {
               autoComplete="off"
               
             >
-              <TextField name='email' id="outlined-basic" label="Gender" variant="outlined" style={{width : "96%"}}/>
+              <TextField name='gender' value={form.gender} onChange={handleChange} id="outlined-basic" label="Gender" variant="outlined" style={{width : "96%"}}/>
 
-              <TextField name='email' id="outlined-basic" label="Phone" variant="outlined" style={{width : "96%"}}/>
+              <TextField name='phone' value={form.phone} onChange={handleChange} id="outlined-basic" label="Phone" variant="outlined" style={{width : "96%"}}/>
 
-              <TextField name='fullname'  id="outlined-basic" label="Address" variant="outlined" style={{width : "96%"}}/>
-              
-              <div className={cssModule.imgGroup}>
-              <label htmlFor="upload">
-                Upload file
-              </label>
-              {preview && (
-                <div>
-                  <img
-                    src={preview}
-                    style={{
-                      maxWidth: '60px',
-                      maxHeight: '60px',
-                      objectFit: 'cover',
-                    }}
-                    alt={preview}
-                  />
-                </div>
-              )}
-              <input
-                type="file"
-                id="upload"
-                name="image"
-                hidden
-                onChange={handleChange}
-              />
-              </div>
+              <TextField name='address' value={form.address} onChange={handleChange} id="outlined-basic" label="Address" variant="outlined" style={{width : "96%"}}/>   
             
             </Box>
 

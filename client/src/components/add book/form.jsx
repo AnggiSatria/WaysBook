@@ -18,15 +18,15 @@ function Form() {
     about : ""
   })
 
-  const handleOnChange = (e) => {
-    setAddBook({
-      ...addBook,
-      [e.target.name] : e.target.value
-    })
-  }
+  // const handleOnChange = (e) => {
+  //   setAddBook({
+  //     ...addBook,
+  //     [e.target.name] : e.target.value
+  //   })
+  // }
 
   const handleOnSubmit = (e) => {
-    e.prevent.Default()
+    e.preventDefault()
     console.log(addBook)
   } 
 
@@ -50,7 +50,7 @@ function Form() {
             <h3>Add Book</h3>
         </div>
 
-        <form action="" onSubmit={handleOnSubmit}>
+        <form onSubmit={handleOnSubmit}>
                     <Box
                 component="form"
                 sx={{
@@ -60,17 +60,17 @@ function Form() {
                 autoComplete="off"
                 
                 >
-                <TextField name='tittle' value={addBook.tittle} onChange={handleOnChange} id="outlined-basic" label="Tittle" variant="outlined" style={{width : "96%"}}/>
+                <TextField name='tittle' value={addBook.tittle} onChange={handleChangePdf} id="outlined-basic" label="Tittle" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField name='publication' value={addBook.publication} onChange={handleOnChange} id="outlined-basic" label="Publication Date" variant="outlined" style={{width : "96%"}}/>
+                <TextField name='publication' value={addBook.publication} onChange={handleChangePdf} id="outlined-basic" label="Publication Date" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField name='pages' value={addBook.pages} onChange={handleOnChange} id="outlined-basic" label="Pages" variant="outlined" style={{width : "96%"}}/>
+                <TextField name='pages' value={addBook.pages} onChange={handleChangePdf} id="outlined-basic" label="Pages" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField name='isbn' value={addBook.isbn} onChange={handleOnChange} id="outlined-basic" label="ISBN" variant="outlined" style={{width : "96%"}}/>
+                <TextField name='isbn' value={addBook.isbn} onChange={handleChangePdf} id="outlined-basic" label="ISBN" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField name='price' value={addBook.price} onChange={handleOnChange} id="outlined-basic" label="Price" variant="outlined" style={{width : "96%"}}/>
+                <TextField name='price' value={addBook.price} onChange={handleChangePdf} id="outlined-basic" label="Price" variant="outlined" style={{width : "96%"}}/>
 
-                <textarea name='about' value={addBook.about} onChange={handleOnChange} style={{width : "96%", height : "200px", resize : "none"}} placeholder="About This Book"></textarea>
+                <textarea name='about' value={addBook.about} onChange={handleChangePdf} style={{width : "96%", height : "200px", resize : "none"}} placeholder="About This Book"></textarea>
                 </Box>
 
               <Row
