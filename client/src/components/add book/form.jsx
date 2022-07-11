@@ -14,16 +14,19 @@ import bookWhite from "../../assets/img/bookWhite.png"
 
 function Form() {
 
-  const [state, dispacth] = useContext(UserContext)
+  let navigate = useState()
 
+  const [preview, setPreview] = useState(null);
+  const [cekPdf, setCekPdf] = useState(false);
+  const [state, dispacth] = useContext(UserContext)
   const [addBook, setAddBook] = useState({
-    tittle : "",
-    publication : "",
+    title : "",
+    year : "",
     pages : "",
-    creator : "",
-    isbn : "",
+    author : "",
+    ISBN : "",
     price : "",
-    about : "",
+    desc : "",
     bookImg : "",
     bookPdf : ""
   })
@@ -34,26 +37,30 @@ function Form() {
       [e.target.name]:
         e.target.type === "file" ? e.target.files : e.target.value,
     })
-  }
 
-  const navigate = useState()
+    if (e.target.type === "file") {
+      let url = URL.createObjectURL(e.target.files[0]);
+      setPreview(url);
+    }
+  }
+  
 
   const handleOnSubmit = async (e) => {
 
         e.preventDefault()
         console.log(addBook)
 
-        const formData = new formData();
+        const formData = new FormData();
 
         formData.set("bookPdf", addBook.bookPdf[0], addBook.bookPdf[0].name);
         formData.set("bookImg", addBook.bookImg[0], addBook.bookImg[0].name);
         formData.set("title", addBook.title);
-        formData.set("year", addBook.publication);
-        formData.set("author", addBook.creator);
+        formData.set("year", addBook.year);
+        formData.set("author", addBook.author);
         formData.set("pages", addBook.pages);
-        formData.set("ISBN", addBook.isbn);
+        formData.set("ISBN", addBook.ISBN);
         formData.set("price", addBook.price);
-        formData.set("desc", addBook.about);
+        formData.set("desc", addBook.desc);
 
         const config = {
           headers: {
@@ -67,9 +74,6 @@ function Form() {
           })
           .catch((err) => console.log(err));
     }
-
-  const [preview, setPreview] = useState(null);
-  const [cekPdf, setCekPdf] = useState(false);
 
   const handleChangePdf = (e) => {
     setAddBook({
@@ -98,17 +102,17 @@ function Form() {
                 autoComplete="off"
                 
                 >
-                <TextField name='tittle' value={addBook.tittle} onChange={handleOnChange} id="outlined-basic" label="Tittle" variant="outlined" style={{width : "96%"}}/>
+                <TextField name='tittle' value={addBook.title} onChange={handleOnChange} id="outlined-basic" label="Tittle" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField name='publication' value={addBook.publication} onChange={handleOnChange} id="outlined-basic" label="Publication Date" variant="outlined" style={{width : "96%"}}/>
+                <TextField name='publication' value={addBook.year} onChange={handleOnChange} id="outlined-basic" label="Publication Date" variant="outlined" style={{width : "96%"}}/>
 
                 <TextField name='pages' value={addBook.pages} onChange={handleOnChange} id="outlined-basic" label="Pages" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField name='isbn' value={addBook.isbn} onChange={handleOnChange} id="outlined-basic" label="ISBN" variant="outlined" style={{width : "96%"}}/>
+                <TextField name='ISBN' value={addBook.ISBN} onChange={handleOnChange} id="outlined-basic" label="ISBN" variant="outlined" style={{width : "96%"}}/>
 
                 <TextField name='price' value={addBook.price} onChange={handleOnChange} id="outlined-basic" label="Price" variant="outlined" style={{width : "96%"}}/>
 
-                <textarea name='about' value={addBook.about} onChange={handleOnChange} style={{width : "96%", height : "200px", resize : "none"}} placeholder="About This Book"></textarea>
+                <textarea name='about' value={addBook.desc} onChange={handleOnChange} style={{width : "96%", height : "200px", resize : "none"}} placeholder="About This Book"></textarea>
                 </Box>
 
               <Row
