@@ -4,7 +4,6 @@ import cssModule from "../assets/css/Complain.module.css";
 import avatarIcon from "../assets/img/Untitled_design-removebg-preview.png";
 import background from "../assets/img/background.png";
 import sendIcon from "../assets/img/sendIconBlack.png";
-import NavbarUser from "../components/navbar/NavbarUser";
 import { UserContext } from "../context/userContext";
 import { io } from "socket.io-client";
 import logOn from "../assets/img/Ellipse_4.png";

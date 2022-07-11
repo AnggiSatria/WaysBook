@@ -7,10 +7,9 @@ import LandingPage from "./pages/LandingPage";
 import Profile from "./pages/profile";
 import Transaction from "./pages/transaction";
 import PublicNavbar from "./components/navbar/PublicNavbar";
-import Login from "./components/landing page/Login";
-import Register from "./components/landing page/Register";
 import AdminNavbar from "./components/navbar/AdminNavbar";
 import AdminComplain from "./pages/AdminComplain";
+import CustomerLogin from "./pages/CustomerLogin";
 
 function App() {
   return (
@@ -25,8 +24,7 @@ function App() {
         <Route path="/complain" element={<Complain/>}/>
         <Route path="/admin-complain" element={<AdminComplain/>}/>
         <Route path="/public" element={<AdminNavbar/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/register" element={<Register/>}/>
+        <Route path="/customer-login" element={<CustomerLogin/>}/>
       </Routes>
 
   );

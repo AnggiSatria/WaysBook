@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from '@mui/material'
 
-function About() {
+function About(props) {
   return (
     <div style={{marginLeft : "12%", marginLeft : "12%", marginTop : "50px", display : "flex", flexDirection : "column"}}>
         <h1>About This Book</h1>
@@ -9,7 +9,7 @@ function About() {
         <p style={{wordWrap : "break-word"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil eius voluptates dolorum facilis beatae? Deserunt in recusandae odit ipsam rerum doloremque eos. Exercitationem itaque sed repellat obcaecati modi in esse ducimus doloribus debitis et corporis molestias sit unde molestiae tempore voluptatem error accusantium facere amet ab minima, vel expedita! Ea non cumque magnam, delectus harum animi velit nihil laudantium tempore mollitia dolore, voluptas atque odit amet nisi deserunt est rerum, voluptatum quam consectetur quidem perferendis? Natus pariatur, asperiores est ducimus quos perferendis deleniti vero excepturi aut molestias maiores porro voluptas explicabo quibusdam! Velit tempora quos deserunt ipsa itaque magnam vitae, natus officiis dolorem. Illum in corrupti quidem corporis! Blanditiis quo eligendi nihil officia voluptas praesentium at possimus iure quasi eveniet fugiat vero ex explicabo temporibus odio optio porro eos, voluptatum et? Earum ab vitae repudiandae fugit repellat dolorem ut qui molestias facere, eos magnam quos iste porro obcaecati natus illum impedit sint itaque rem inventore aperiam, vel recusandae reiciendis pariatur? Illum laboriosam iusto hic? Rerum labore mollitia eum cumque, dolor ad minima animi qui sequi necessitatibus laboriosam natus non incidunt, veniam facilis autem. Enim, magnam quasi. Unde, quidem et quisquam quibusdam, dolorem qui odio atque facilis sint eveniet accusantium officiis ea ad exercitationem fugiat. Dolore earum accusantium velit tempore nesciunt dolorem, fuga commodi non, quas expedita, dicta dignissimos quis. Ullam perspiciatis suscipit repellendus maiores nam ipsam minima cupiditate eos quibusdam ea incidunt iusto libero ipsum minus error hic rerum quos temporibus atque molestias voluptatem nesciunt, nisi laborum? Totam qui asperiores nemo labore corrupti quae dolor accusantium hic quasi, provident cum laborum, itaque eaque, doloremque neque quaerat dicta laboriosam! Quas, rerum sapiente pariatur, laudantium harum laborum, doloribus aliquam eius sed aut reiciendis unde placeat eveniet officia dolores? Sed voluptates, nobis error qui, unde nulla accusamus obcaecati nemo, doloremque architecto autem. Veritatis?</p>   
 
         <div className="button" style={{display : "flex", width : "100%", justifyContent : "flex-end"}}>
-          <Button variant='contained' color="inherit" style={{width : "15%"}}>Add To Cart</Button>  
+          <Button variant='contained' color="inherit" style={{width : "15%"}} onClick={props.setLgShow}>Add To Cart</Button>  
         </div>
            
         <br />

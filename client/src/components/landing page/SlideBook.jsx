@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import img from "../../assets/img/contoh.jpg"
 import Img from "../../assets/img/contoh2.jpg"
 
-function SlideBook() {
+function SlideBook(props) {
 
     var settings = {
         dots: true,
@@ -78,7 +78,7 @@ function SlideBook() {
                     <p>{value.creator}</p>
                     <p style={{wordWrap : "break-word"}}>{value.desc}</p>
                     <h5 style={{color : "black"}}>{value.price}</h5>
-                    <Button variant="contained" color="inherit">Add To Cart</Button>
+                    <Button onClick={props.setLgShow} variant="contained" color="inherit">Add To Cart</Button>
                   </div>
               </div>           
             </div>

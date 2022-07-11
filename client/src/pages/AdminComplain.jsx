@@ -4,7 +4,6 @@ import cssModule from "../assets/css/AdminComplain.module.css";
 import avatarIcon from "../assets/img/userBlack.png";
 import background from "../assets/img/background.png";
 import sendIcon from "../assets/img/sendIconBlack.png";
-import NavbarAdmin from "../components/navbar/NavbarAdmin";
 import { UserContext } from "../context/userContext";
 import { io } from "socket.io-client";
 import logOn from "../assets/img/Ellipse_4.png";

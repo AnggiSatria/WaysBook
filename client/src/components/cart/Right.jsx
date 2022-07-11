@@ -1,5 +1,6 @@
 import React from 'react'
 import "../../assets/css/bg.css"
+import { Button } from "react-bootstrap"
 
 function Right() {
   return (
@@ -31,9 +32,10 @@ function Right() {
             </div>
         </div>
 
-        <div className="attachFile" style={{display : "flex", justifyContent : "flex-end"}}>
-            <input type="file" />
+        <div className="button" style={{width : "100%", display : "flex", justifyContent : "flex-end", textAlign : "center", marginTop : "30px"}}>
+            <Button variant="dark" style={{display : 'flex', width : "50%", textAlign : "center"}}>Pay</Button>
         </div>
+        
     </div>
   )
 }

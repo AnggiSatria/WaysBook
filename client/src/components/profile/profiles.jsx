@@ -4,9 +4,37 @@ import IMG2 from "../../assets/img/gender.png"
 import IMG3 from "../../assets/img/contact.png"
 import IMG4 from "../../assets/img/location.png"
 import IMG5 from "../../assets/img/avatar.PNG"
-import { Button } from '@mui/material'
+import { Box, TextField } from '@mui/material'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Modal, Form } from "react-bootstrap"
+import { Button } from "react-bootstrap"
+import cssModule from "../../assets/css/EditProfile.module.css"
 
 function Profiles() {
+
+    const [editProfile, setEditProfile] = useState(false);
+    const handleClose = () => setEditProfile(false);
+    const handleShow = () => setEditProfile(true);
+
+    const [preview, setPreview] = useState(null); //For image preview
+
+    const [form, setForm] = useState({
+        name: '',
+        image: '',
+        desc: '',
+        price: '',
+        qty: ''
+    });
+
+    const handleChange = (e) => {
+        setForm({
+          ...form,
+          [e.target.name]:
+            e.target.type === 'file' ? e.target.files : e.target.value,
+        });
+    }
+
   return (
     <div>
         <h3>Profile</h3>
@@ -62,9 +90,66 @@ function Profiles() {
                             <img src={IMG5} alt="" width={200}/>
                         </div>
                     
-                        <Button variant='contained' color='error' style={{width : "100%"}}>Edit Profile</Button>
+                        <Button onClick={handleShow} variant='danger' style={{width : "100%"}}>Edit Profile</Button>
                     </div>
                     
+                    <div className="modalRegister">
+        <Modal show={editProfile} onHide={handleClose}>
+          
+            <Modal.Body style={{padding : "20px"}}>
+              <h1>Edit Profile</h1>
+              <Form >
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Box
+              component="form"
+              sx={{
+                '& > :not(style)': { m: 1, width: '25ch' },
+              }}
+              noValidate
+              autoComplete="off"
+              
+            >
+              <TextField name='email' id="outlined-basic" label="Gender" variant="outlined" style={{width : "96%"}}/>
+
+              <TextField name='email' id="outlined-basic" label="Phone" variant="outlined" style={{width : "96%"}}/>
+
+              <TextField name='fullname'  id="outlined-basic" label="Address" variant="outlined" style={{width : "96%"}}/>
+              
+              <div className={cssModule.imgGroup}>
+              <label htmlFor="upload">
+                Upload file
+              </label>
+              {preview && (
+                <div>
+                  <img
+                    src={preview}
+                    style={{
+                      maxWidth: '60px',
+                      maxHeight: '60px',
+                      objectFit: 'cover',
+                    }}
+                    alt={preview}
+                  />
+                </div>
+              )}
+              <input
+                type="file"
+                id="upload"
+                name="image"
+                hidden
+                onChange={handleChange}
+              />
+              </div>
+            
+            </Box>
+
+            <Button type='submit' variant="dark" style={{width : "96%", marginLeft : "7px", height : "50px"}}>Save</Button>
+
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+        </Modal>
+      </div>
                 </div>
             </div>
             

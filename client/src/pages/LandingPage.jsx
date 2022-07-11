@@ -4,15 +4,14 @@ import PublicNavbar from "../components/navbar/PublicNavbar"
 import CustomerNavbar from "../components/navbar/CustomerNavbar"
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import SlideBook from '../components/landing page/SlideBook'
 import ListBook from '../components/landing page/ListBook'
 import IMG from '../../src/assets/img/background.png'
-import Login from '../components/landing page/Login'
-import Register from '../components/landing page/Register'
 import { Button, Modal, Form } from 'react-bootstrap'
 import { Box, TextField } from '@mui/material'
 import { Link } from 'react-router-dom';
+import users from '../Dummy Data/user'
 
 
 function LandingPage() {
@@ -63,6 +62,25 @@ function LandingPage() {
     e.preventDefault()
     console.log(register)
   }
+
+  const navigate = useNavigate();
+
+  // const user = user;
+
+  // const users = user.filter('status');
+
+  // const conditionalLogin = () => {
+  //   if(users == "admin"){
+  //     navigate('/transaction')
+  //   }
+
+  //   if(users == "customer"){
+  //     navigate('/customer-complain')
+  //   }
+  // }
+
+
+  const [lgShow, setLgShow] = useState(false)
 
   return (
     <div>
@@ -151,8 +169,22 @@ function LandingPage() {
       </div>
 
       <div className="body"style={{minHeight : "93vh"}}>
+
+        <div className="modal">
+            <Modal
+            size="lg"
+            show={lgShow}
+            onHide={() => setLgShow(false)}
+            aria-labelledby="example-modal-sizes-title-lg"
+            style={{}}
+          >
+
+              <Modal.Body style={{textAlign : "center", color : "rgba(65, 222, 40, 0.85)", background : "transparent"}}>This Product Is Sucessfully Added To Cart</Modal.Body>
+            </Modal>
+        </div>
+
         <div className="slider" style={{marginLeft : "1%", marginRight : "1%"}}>
-          <SlideBook/>
+          <SlideBook setLgShow={setLgShow}/>
         </div>
 
         <div className="listBook" style={{marginTop : "50px"}}>
