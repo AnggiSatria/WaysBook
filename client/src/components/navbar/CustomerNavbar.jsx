@@ -16,10 +16,6 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-// import LogoutIcon from '@mui/icons-material/Logout';
-// import SmsIcon from '@mui/icons-material/Sms';
-// import MenuBookIcon from '@mui/icons-material/MenuBook';
 import img from "../../assets/img/cart2.png"
 import { useNavigate } from "react-router-dom";
 import { Nav } from "react-bootstrap";
@@ -30,9 +26,13 @@ import Avatar from "react-avatar"
 import Profile from "../../pages/profile";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 
 function CustomerNavbar() {
+
+    const [state, dispatch] = useContext(UserContext)
 
   const navigate = useNavigate();
 
@@ -45,6 +45,10 @@ function CustomerNavbar() {
   }
 
   const logout = () => {
+    console.log(state);
+    dispatch({
+        type : "LOGOUT",
+    })
     navigate('/')
   }
 

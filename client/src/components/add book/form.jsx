@@ -11,10 +11,12 @@ import { UserContext } from '../../context/userContext';
 import { API } from "../../config/api"
 import { useMutation } from 'react-query';
 import bookWhite from "../../assets/img/bookWhite.png"
+import { useNavigate } from 'react-router-dom';
+
 
 function Form() {
 
-  let navigate = useState()
+  let navigate = useNavigate()
 
   const [preview, setPreview] = useState(null);
   const [cekPdf, setCekPdf] = useState(false);
@@ -102,19 +104,19 @@ function Form() {
                 autoComplete="off"
                 
                 >
-                <TextField name='tittle' value={addBook.title} onChange={handleOnChange} id="outlined-basic" label="Tittle" variant="outlined" style={{width : "96%"}}/>
+                <TextField name='title' value={addBook.title} onChange={handleOnChange} id="outlined-basic" label="Tittle" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField name='publication' value={addBook.year} onChange={handleOnChange} id="outlined-basic" label="Publication Date" variant="outlined" style={{width : "96%"}}/>
+                <TextField onChange={handleOnChange}  name='publication' value={addBook.year} type="date" id="outlined-basic" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField name='author' value={addBook.author} onChange={handleOnChange} id="outlined-basic" label="Author" variant="outlined" style={{width : "96%"}}/>
+                <TextField onChange={handleOnChange} name='author'  value={addBook.author}  id="outlined-basic" label="Author" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField name='pages' value={addBook.pages} onChange={handleOnChange} id="outlined-basic" label="Pages" variant="outlined" style={{width : "96%"}}/>
+                <TextField onChange={handleOnChange} name='pages' value={addBook.pages}  id="outlined-basic" label="Pages" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField name='ISBN' value={addBook.ISBN} onChange={handleOnChange} id="outlined-basic" label="ISBN" variant="outlined" style={{width : "96%"}}/>
+                <TextField onChange={handleOnChange} name='ISBN' value={addBook.ISBN}  id="outlined-basic" label="ISBN" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField name='price' value={addBook.price} onChange={handleOnChange} id="outlined-basic" label="Price" variant="outlined" style={{width : "96%"}}/>
+                <TextField onChange={handleOnChange} name='price' value={addBook.price}  id="outlined-basic" label="Price" variant="outlined" style={{width : "96%"}}/>
 
-                <textarea name='about' value={addBook.desc} onChange={handleOnChange} style={{width : "96%", height : "200px", resize : "none"}} placeholder="About This Book"></textarea>
+                <textarea onChange={handleOnChange} name='about' value={addBook.desc}  style={{width : "96%", height : "200px", resize : "none"}} placeholder="About This Book"></textarea>
                 </Box>
 
               <Row

@@ -2,30 +2,30 @@ import React from 'react'
 import AdminNavbar from '../components/navbar/AdminNavbar'
 import PublicNavbar from "../components/navbar/PublicNavbar"
 import CustomerNavbar from "../components/navbar/CustomerNavbar"
-import { useState } from 'react'
+import { useState, useContext, } from 'react'
 import { useEffect } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
+import { UserContext } from "../../src/context/userContext";
+import { API } from "../../src/config/api";
 import SlideBook from '../components/landing page/SlideBook'
 import ListBook from '../components/landing page/ListBook'
 import IMG from '../../src/assets/img/background.png'
-import { Button, Modal, Form } from 'react-bootstrap'
+import { Button, Modal, Form, Alert } from 'react-bootstrap'
 import { Box, TextField } from '@mui/material'
 import { Link } from 'react-router-dom';
-import { useMutation } from 'react-query';
-import { API } from "../config/api"
-import { UserContext } from '../context/userContext'
-import { Alert } from 'react-bootstrap'
-import { useContext } from 'react'
+import { useMutation } from 'react-query'
+import users from '../Dummy Data/user'
 
 
 function LandingPage() {
-
-  document.body.style.backgroundImage = IMG;
-  document.body.style.backgroundColor="#fff"
+  let navigate = useNavigate();
 
   const [state, dispatch] = useContext(UserContext);
   
   const [message, setMessage] = useState(null);
+
+  document.body.style.backgroundImage = IMG;
+  document.body.style.backgroundColor="#fff"
 
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -36,11 +36,16 @@ function LandingPage() {
   const handleShowRegister = () => setShowRegister(true);
   const handleCloseRegister = () => setShowRegister(false);
 
+//   const [form, setForm] = useState({
+//     name: '',
+//     email: '',
+//     password: '',
+// });
+  // Login
   const [login, setLogin] = useState({
     email : "",
     password : ""
   })
-
   console.log(login);
 
   const handleOnLogin = (e) => {
@@ -50,61 +55,8 @@ function LandingPage() {
     })
   }
 
-  const handleSubmitLogin = useMutation(async (e) => {
-
-    try {
-      
-      e.preventDefault()
-      console.log(login)
-
-      const config = {
-        headers: {
-            'Content-type': 'application/json',
-        },
-    };
-
-    // Data body
-    const body = JSON.stringify(login);
-
-    // Insert data for login process
-    const response = await API.post('/login', body, config);
-
-    console.log(response);
-
-    // Checking process
-    if (response?.status === 200) {
-        // Send data to useContext
-        dispatch({
-            type: 'LOGIN_SUCCESS',
-            payload: response.data.data,
-        });
-
-        // Status check
-        // if (response.data.data.status === 'Admin') {
-        //     navigate('/admin');
-        // } else {
-        //     navigate('/user');
-        // }
-
-        const alert = (
-            <Alert variant="success" className="py-1">
-                Login success
-            </Alert>
-        );
-        setMessage(alert);
-    }
-} catch (error) {
-    const alert = (
-        <Alert variant="danger" className="py-1">
-            Login failed
-        </Alert>
-    );
-    setMessage(alert);
-    console.log(error);
-}
-
-  })
-
+  
+  //Register
   const [register, setRegister] = useState({
     name : "",
     email : "", 
@@ -117,68 +69,110 @@ function LandingPage() {
       [e.target.name] : e.target.value
     })
   }
+  
+  
 
-  const handleSubmitRegister = useMutation(async(e) =>{
+  const handleSubmit = useMutation(async (e) => {
     try {
-      e.preventDefault()
-    console.log(register)
-    
-    const config = {
-      headers: {
-          'Content-type': 'application/json',
-      },
-  };
+        e.preventDefault();
 
-  // Data body
-  const body = JSON.stringify(register);
+        // Configuration Content-type
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+            },
+        };
+
+        // Data body
+        const body = JSON.stringify(register);
 console.log(body);
-  // Insert data user to database
-  const response = await API.post('/register', body, config);
+        // Insert data user to database
+        const response = await API.post('/register', body, config);
 console.log(response);
-  // Notification
-  if (response.data.status === 'Success') {
-      const alert = (
-          <Alert variant="success" className="py-1">
-              Success
-          </Alert>
-      );
-      setMessage(alert);
-      
-  } else {
+        // Notification
+        if (response.data.status === 'Success') {
+            const alert = (
+                <Alert variant="success" className="py-1">
+                    Success
+                </Alert>
+            );
+            setMessage(alert);
+            
+        } else {
+            const alert = (
+                <Alert variant="danger" className="py-1">
+                    Failed
+                </Alert>
+            );
+            setMessage(alert);
+        }
+    } catch (error) {
+        const alert = (
+            <Alert variant="danger" className="py-1">
+                Failed
+            </Alert>
+        );
+        setMessage(alert);
+        console.log(error);
+    }
+});
+  
+const handleSubmitLogin = useMutation(async (e) => {
+  try {
+      e.preventDefault();
+
+      // Configuration
+      const config = {
+          headers: {
+              'Content-type': 'application/json',
+          },
+      };
+
+      // Data body
+      const body = JSON.stringify(login);
+
+      // Insert data for login process
+      const response = await API.post('/login', body, config);
+
+      // Checking process
+      if (response?.status === 200) {
+          // Send data to useContext
+          let dataUser = response.data.data.user;
+          dispatch({
+              type: 'LOGIN_SUCCESS',
+              payload: dataUser,
+          });
+        
+           //cek status
+          // navigate("/p");
+
+          const alert = (
+              <Alert variant="success" className="py-1">
+                  Login success
+              </Alert>
+          );
+          setMessage(alert);
+      }
+  } catch (error) {
       const alert = (
           <Alert variant="danger" className="py-1">
-              Failed
+              Login failed
           </Alert>
       );
       setMessage(alert);
+      console.log(error);
   }
-} catch (error) {
-  const alert = (
-      <Alert variant="danger" className="py-1">
-          Failed
-      </Alert>
-  );
-  setMessage(alert);
-  console.log(error);
+});
+let navbarConfig = "";
+if (!state.user.role) {
+  navbarConfig = <PublicNavbar handleShow={handleShow} handleShowRegister={handleShowRegister}/>;
 }
-    
-  })
-
-  const navigate = useNavigate();
-
-  // const user = user;
-
-  // const users = user.filter('status');
-
-  // const conditionalLogin = () => {
-  //   if(users == "admin"){
-  //     navigate('/transaction')
-  //   }
-
-  //   if(users == "customer"){
-  //     navigate('/customer-complain')
-  //   }
-  // }
+if (state.user.role == "customer") {
+  navbarConfig = <CustomerNavbar  />;
+}
+if (state.user.role == "admin") {
+  navbarConfig = <AdminNavbar />;
+}
 
 
   const [lgShow, setLgShow] = useState(false)
@@ -186,33 +180,33 @@ console.log(response);
   return (
     <div>
       <div className="navbar" style={{display : "flex", height : "7vh"}}>
-          <PublicNavbar handleShow={handleShow} handleShowRegister={handleShowRegister}/>
+      {navbarConfig}
+       
       </div>
-
       <div className="modalLogin">
-        <Modal show={show} onHide={handleClose}>
-          
-            <Modal.Body style={{padding : "20px"}}>
-              <h1>Login</h1>
-              {message}
-              <Form onSubmit={(e) => handleSubmitLogin.mutate(e)}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Box
-              component="form"
-              sx={{
-                '& > :not(style)': { m: 1, width: '25ch' },
-              }}
-              noValidate
-              autoComplete="off"
-              
-            >
-              <TextField name='email' value={login.email} onChange={handleOnLogin} id="outlined-basic" label="email" variant="outlined" style={{width : "96%"}}/>
-
-              <TextField
-              id="outlined-password-input"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
+      <Modal show={show} onHide={handleClose}>
+      
+      <Modal.Body style={{padding : "20px"}}>
+      <h1>Login</h1>
+      {message} 
+      <Form onSubmit={(e) => handleSubmitLogin.mutate(e)}>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+      <Box
+      component="form"
+      sx={{
+        '& > :not(style)': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+      
+      >
+      <TextField name='email' value={login.email} onChange={handleOnLogin} id="outlined-basic" label="email" variant="outlined" style={{width : "96%"}}/>
+      
+      <TextField
+      id="outlined-password-input"
+      label="Password"
+      type="password"
+      autoComplete="current-password"
               style={{width : "96%"}}
               name='password'
               value={login.password}
@@ -221,23 +215,23 @@ console.log(response);
             </Box>
 
             <Button type='submit' variant="dark" style={{width : "96%", marginLeft : "7px", height : "50px"}}>Login</Button>
-
+            
             <p style={{marginLeft : "7px", marginTop : "10px"}}>Don't have an account? Click <Link to="/"> Here</Link></p>
-                </Form.Group>
-              </Form>
+            </Form.Group>
+            </Form>
             </Modal.Body>
-        </Modal>
+            </Modal>
       </div>
-
+      
       <div className="modalRegister">
-        <Modal show={showRegister} onHide={handleCloseRegister}>
-          
+      <Modal show={showRegister} onHide={handleCloseRegister}>
+      
             <Modal.Body style={{padding : "20px"}}>
               <h1>Register</h1>
-              {message}
-              <Form onSubmit={(e) => handleSubmitRegister.mutate(e)}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Box
+              {message} 
+              <Form onSubmit={(e) => handleSubmit.mutate(e)}>
+              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Box
               component="form"
               sx={{
                 '& > :not(style)': { m: 1, width: '25ch' },
@@ -245,9 +239,9 @@ console.log(response);
               noValidate
               autoComplete="off"
               
-            >
+              >
               <TextField name='email' value={register.email} onChange={handleOnRegister} id="outlined-basic" label="email" variant="outlined" style={{width : "96%"}}/>
-
+              
               <TextField
               id="outlined-password-input"
               label="Password"
@@ -257,7 +251,8 @@ console.log(response);
               name="password"
               value={register.password}
               onChange={handleOnRegister}
-            />
+              
+              />
 
               <TextField name='name' value={register.name} onChange={handleOnRegister} id="outlined-basic" label="Fullname" variant="outlined" style={{width : "96%"}}/>
             </Box>
@@ -272,16 +267,16 @@ console.log(response);
       </div>
 
       <div className="body"style={{minHeight : "93vh"}}>
-
+      
         <div className="modal">
-            <Modal
-            size="lg"
-            show={lgShow}
-            onHide={() => setLgShow(false)}
-            aria-labelledby="example-modal-sizes-title-lg"
-            style={{}}
-          >
-
+        <Modal
+        size="lg"
+        show={lgShow}
+        onHide={() => setLgShow(false)}
+        aria-labelledby="example-modal-sizes-title-lg"
+        style={{}}
+        >
+        
               <Modal.Body style={{textAlign : "center", color : "rgba(65, 222, 40, 0.85)", background : "transparent"}}>This Product Is Sucessfully Added To Cart</Modal.Body>
             </Modal>
         </div>

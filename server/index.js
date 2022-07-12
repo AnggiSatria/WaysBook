@@ -29,4 +29,4 @@ app.use(cors());
 app.use('/api/v1/', router)
 app.use("/uploads", express.static("uploads"));
 //when this nodejs app executed, it will listen to defined port
-app.listen(port, () => console.log(`Final Task Pasti Bisa ${port}!`));
+app.listen(port, () => console.log(`Port ${port}!`));

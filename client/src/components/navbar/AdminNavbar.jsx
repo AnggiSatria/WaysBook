@@ -20,6 +20,8 @@ import IconComplain from "../../assets/img/chatGrey.png"
 import IconLogout from "../../assets/img/logoutRed.png"
 import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 // const settings = [ 'Add Book', 'Complain', 'Logout' ];
 
@@ -34,7 +36,10 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 
+
 function AdminNavbar() {
+
+  const [state, dispatch] = useContext(UserContext)
 
   const navigate = useNavigate()
 
@@ -47,6 +52,10 @@ function AdminNavbar() {
   }
 
   const logout = () => {
+    console.log(state);
+    dispatch({
+      type : "LOGOUT",
+    })
     navigate('/')
   }
 
