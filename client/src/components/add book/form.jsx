@@ -14,7 +14,7 @@ import bookWhite from "../../assets/img/bookWhite.png"
 import { useNavigate } from 'react-router-dom';
 
 
-function Form() {
+function Form(props) {
 
   let navigate = useNavigate()
 
@@ -46,6 +46,16 @@ function Form() {
     }
   }
   
+  const handleChangePdf = (e) => {
+    setAddBook({
+      ...addBook,
+      [e.target.name]:
+        e.target.type === "file" ? e.target.files : e.target.value,
+    });
+
+    
+    setCekPdf(true);
+  };
 
   const handleOnSubmit = async (e) => {
 
@@ -77,16 +87,6 @@ function Form() {
           .catch((err) => console.log(err));
     }
 
-  const handleChangePdf = (e) => {
-    setAddBook({
-      ...addBook,
-      [e.target.name]:
-        e.target.type === "file" ? e.target.files : e.target.value,
-    });
-
-    
-    setCekPdf(true);
-  };
 
   return (
     <div>
@@ -106,7 +106,7 @@ function Form() {
                 >
                 <TextField name='title' value={addBook.title} onChange={handleOnChange} id="outlined-basic" label="Tittle" variant="outlined" style={{width : "96%"}}/>
 
-                <TextField onChange={handleOnChange}  name='publication' value={addBook.year} type="date" id="outlined-basic" variant="outlined" style={{width : "96%"}}/>
+                <TextField onChange={handleOnChange}  name='year' value={addBook.year} type="date" id="outlined-basic" variant="outlined" style={{width : "96%"}}/>
 
                 <TextField onChange={handleOnChange} name='author'  value={addBook.author}  id="outlined-basic" label="Author" variant="outlined" style={{width : "96%"}}/>
 
@@ -116,7 +116,7 @@ function Form() {
 
                 <TextField onChange={handleOnChange} name='price' value={addBook.price}  id="outlined-basic" label="Price" variant="outlined" style={{width : "96%"}}/>
 
-                <textarea onChange={handleOnChange} name='about' value={addBook.desc}  style={{width : "96%", height : "200px", resize : "none"}} placeholder="About This Book"></textarea>
+                <textarea onChange={handleOnChange} name='desc' value={addBook.desc}  style={{width : "96%", height : "200px", resize : "none"}} placeholder="About This Book"></textarea>
                 </Box>
 
               <Row

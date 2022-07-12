@@ -40,7 +40,7 @@ exports.uploadFiles = (bookPdf, bookImg) => {
   };
 
   // Maximum file size MB -> KB -> byte
-  const sizeInMB = 10;
+  const sizeInMB = 20;
   const maxSize = sizeInMB * 1024 * 1000;
 
   const upload = multer({

@@ -1,237 +1,122 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import cssModule from "../assets/css/Complain.module.css";
-import avatarIcon from "../assets/img/Untitled_design-removebg-preview.png";
-import background from "../assets/img/background.png";
-import sendIcon from "../assets/img/sendIconBlack.png";
-import { UserContext } from "../context/userContext";
-import { io } from "socket.io-client";
-import logOn from "../assets/img/Ellipse_4.png";
-import CustomerNavbar from "../components/navbar/CustomerNavbar"
+// import hook
+import React, { useState, useEffect, useContext } from 'react'
 
-let socket;
+import { Container, Row, Col } from 'react-bootstrap'
 
-function Complain() {
-  document.title = `WaysBook | Complain Page`;
 
-  const [contact, setContact] = useState({});
-  const [messages, setMessages] = useState([]);
-  const [online, setOnline] = useState(false);
-  const [form, setForm] = useState({
-    chatM: "",
-  });
+// import here
+import Chat from '../components/complain/Chat'
+import Contact from '../components/complain/Contact'
+import CustomerNavbar from '../components/navbar/CustomerNavbar'
 
-  const title = "Complain admin";
-  document.title = "DumbMerch | " + title;
+import { UserContext } from '../context/userContext'
 
-  const [state] = useContext(UserContext);
+// import socket.io-client 
+import { io } from 'socket.io-client'
 
-  useEffect(() => {
-    socket = io(process.env.REACT_APP_SOCKET_URL || "http://localhost:5000", {
-      auth: {
-        token: localStorage.getItem("token"),
-      },
-      // code here
-    });
+// initial variable outside socket
+let socket
+export default function ComplainUser() {
+    const [contact, setContact] = useState(null)
+    const [contacts, setContacts] = useState([])
+    // code here
+    const [messages, setMessages] = useState([])
 
-    socket.on("new message", () => {
-      socket.emit("load messages", contact?.id);
-    });
+    // code here
+    const [state] = useContext(UserContext)
 
-    // listen error sent from server
-    socket.on("connect_error", (err) => {
-      console.error(err.message); // not authorized
-    });
+    useEffect(() => {
+        socket = io('http://localhost:5000', {
+            auth: {
+                token: localStorage.getItem("token")
+            }
+        })
 
-    loadMessages();
+        // code here
+        socket.on("new message", () => {
+            socket.emit('load messages', contact?.id)
+        })
 
-    if (!messages[messages.length - 1]?.message) {
-      setOnline(false);
-    } else if (messages[messages.length - 1]?.idSender == contact?.id) {
-      setOnline(true);
+        // listen error sent from server
+        socket.on("connect_error", (err) => {
+            console.error(err.message); // not authorized
+        });
+        loadContact()
+        loadMessages()
+
+        return () => {
+            socket.disconnect()
+        }
+    }, [messages]) // code here
+
+    const loadContact = () => {
+        // emit event load admin contact
+        socket.emit("load admin contact")
+        // listen event to get admin contact
+        socket.on("admin contact", (data) => {
+            // manipulate data to add message property with the newest message
+            // code here
+
+            const dataContact = {
+                ...data,
+                message: messages.length > 0 ? messages[messages.length - 1].message : 'Click here to start message'
+            }
+            setContacts([dataContact])
+        })
     }
 
-    return () => {
-      socket.disconnect();
-    };
-  }, [form, messages]); // code here
-
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  // used for active style when click contact
-  const onClickContact = () => {
-    socket.emit("load admin contact");
-
-    socket.on("admin contact", (data) => {
-      setContact(data);
-    });
-
-    socket.emit("load messages", contact.id);
-  };
-
-  const loadMessages = () => {
-    socket.on("messages", (data) => {
-      if (data.length > 0) {
-        const dataMessages = data.map((item) => ({
-          idSender: item.sender.id,
-          message: item.message,
-        }));
-        console.log(dataMessages);
-        setMessages(dataMessages);
-      } else {
-        setMessages([]);
-      }
-    });
-  };
-
-  const onSendMessage = (e) => {
-    if (e.key === "Enter") {
-      const data = {
-        idRecipient: contact.id,
-        message: e.target.value,
-      };
-
-      if (data.message) {
-        socket.emit("send message", data);
-        form.chatM = "";
-      }
+    // used for active style when click contact
+    const onClickContact = (data) => {
+        setContact(data)
+        // code here
+        socket.emit('load messages', data.id)
     }
-  };
 
-  const handleSubmit = () => {
-    const data = {
-      idRecipient: contact.id,
-      message: form.chatM,
-    };
-
-    if (data.message) {
-      socket.emit("send message", data);
-      form.chatM = "";
+    // code here
+    const loadMessages = () => {
+        socket.on('messages', async (data) => {
+            if (data.length > 0) {
+                const dataMessages = data.map((item) => ({
+                    idSender: item.sender.id,
+                    message: item.message
+                }))
+                setMessages(dataMessages)
+            } else {
+                setMessages([])
+                loadContact()
+            }
+        })
     }
-  };
 
-  const handleOffline = () => {
-    const data = {
-      idSender: null,
-      idRecipient: null,
-      message: null,
-    };
+    const onSendMessage = (e) => {
+        if (e.key == "Enter") {
+            const data = {
+                idRecipient: contact.id,
+                message: e.target.value
+            }
 
-    socket.emit("send message offline", data);
+            socket.emit('send message', data)
+            e.target.value = ''
+        }
+    }
 
-    setOnline(false);
-  };
-
-  return (
-    <div
-      style={{
-        backgroundColor: "#E5E5E5",
-        backgroundImage: `url(${background})`,
-        backgroundSize: "100%",
-        height: "100%",
-        paddingTop: "10px",
-        paddingBottom: "37px",
-      }}
-    >
-      
-    <nav>
-        <CustomerNavbar/>
-    </nav>
-
-      <Container style={{marginTop : "50px"}}>
-        <Row sm={2} className={cssModule.chatBoxHeader}>
-          <Col sm={1}>
-            <img src={avatarIcon} alt="" />
-          </Col>
-          <Col sm={11}>
-            <p>Admin</p>
-            {online && (
-              <p // Tandain ini onlennnnnnnnnnnnn
-                style={{
-                  fontSize: "11px",
-                }}
-              >
-                <img
-                  style={{
-                    width: "10px",
-                    height: "10px",
-                  }}
-                  src={logOn}
-                  alt=""
-                />{" "}
-                Online
-              </p>
-            )}
-          </Col>
-        </Row>
-        <Row sm={10} className={cssModule.chatBoxBody}>
-          <div
-            id="chat-messages"
-            style={{ height: "70vh" }}
-            className="overflow-auto px-3 py-2"
-          >
-            {messages.map((item, index) => (
-              <div key={index}>
-                <div
-                  className={`d-flex py-1 ${
-                    item.idSender === state.user.id
-                      ? "justify-content-end"
-                      : "justify-content-start"
-                  }`}
-                >
-                  <div
-                    className={
-                      item.idSender === state.user.id
-                        ? cssModule.chatMe
-                        : cssModule.chatOther
-                    }
-                  >
-                    {item.message}
-                  </div>
+    return (
+        <>
+            <div>
+                <div className="backgroundImageFull">
+                    <CustomerNavbar />
+                    <Container fluid style={{ height: '89.5vh', paddingLeft:"100px", paddingRight:"100px" }}>
+                        <Row>
+                            <Col md={3} style={{ height: '89.5vh' }} className="px-3 overflow-auto">
+                                <Contact style={{backgroundColor: "#dfdfdf", borderRadius: "5px"}} dataContact={contacts} clickContact={onClickContact} contact={contact} />
+                            </Col>
+                            <Col md={9} style={{ height: '89.5vh', backgroundColor: "#dfdfdf", borderRadius: "5px" }} className="px-3 overflow-auto">
+                                <Chat contact={contact} messages={messages} user={state.user} sendMessage={onSendMessage} />
+                            </Col>
+                        </Row>
+                    </Container>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          <Row
-            style={{
-              height: "10%",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-            className={cssModule.chatSend}
-          >
-            <Col sm={11}>
-              <input
-                type="text"
-                name="chatM"
-                value={form.chatM}
-                onClick={onClickContact}
-                onChange={handleChange}
-                onKeyPress={onSendMessage}
-                placeholder="Start typing to load message ..."
-              />
-            </Col>
-            <Col
-              style={{
-                padding: "0px",
-              }}
-              sm={1}
-            >
-              <button onClick={handleSubmit}>
-                <img src={sendIcon} alt="" />
-              </button>
-            </Col>
-          </Row>
-        </Row>
-      </Container>
-    </div>
-  );
+            </div>
+        </>
+    )
 }
-
-export default Complain;

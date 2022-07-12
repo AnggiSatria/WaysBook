@@ -62,7 +62,7 @@ function CustomerNavbar() {
             </div>
 
             <div className="right" style={{display : "flex", flex : "50%", justifyContent : "flex-end", marginRight : "50px", alignItems : "center"}}>
-                <div className="carosel" style={{marginRight : "50px"}}>
+                <div className="carosel" style = {{marginRight : "50px"}}>
                   <Badge badgeContent={''} color="error">
                     <Link to="/cart"><img src={img} alt="" /></Link>
                   </Badge>
