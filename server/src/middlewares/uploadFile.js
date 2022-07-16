@@ -5,7 +5,7 @@ exports.uploadImg = (imageFile) => {
   // Destinasi dan Rename File 
   const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-      cb(null, "uploads/profile")
+      cb(null, "uploads/image")
     },
     filename: function(req, file, cb){
       cb(null, Date.now() + "-" + file.originalname.replace(/\s/g, ""))

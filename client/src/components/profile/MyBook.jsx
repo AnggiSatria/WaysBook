@@ -6,8 +6,12 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Img from "../../assets/img/contoh2.jpg"
+import { API } from "../../config/api"
+import { useMutation, useQuery } from 'react-query';
 
 function MyBook() {
+
+   
 
     const card = [
         {
@@ -52,15 +56,15 @@ function MyBook() {
         <h3>My Book</h3>
 
         <div className="cards" style={{border : "none", marginTop : "40px", display : "flex", flexWrap : "wrap"}}>
-                {card.map((value) => {
+                {card?.map((value) => {
                     return <Card sx={{ maxWidth: 250 }} style={{marginLeft : "5px", marginRight : "5px", marginTop : "30px"}}>
-                    <img src={value.img} alt="" style={{width : "100%"}}/>
+                    <img src={value?.img} alt="" style={{width : "100%"}}/>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                        {value.tittle}
+                        {value?.tittle}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                        {value.creator}
+                        {value?.creator}
                         </Typography>
                         </CardContent>
                         <CardActions>

@@ -4,7 +4,7 @@ import IMG from "../../assets/img/contoh2.jpg"
 import { useQuery } from 'react-query'
 import { useMutation } from 'react-query'
 import { API } from "../../config/api"
-
+import { Link } from 'react-router-dom'
 
 
 
@@ -22,7 +22,7 @@ let { data: books } = useQuery('booksCache', async () => {
 
         <div className="cards" style={{marginLeft : "10%", marginRight : "10%", display : "flex", flexWrap : "wrap", marginTop : '20px'}}>      
           {books?.map((item, index) => {
-            return <div className="card" style={{color : "black", width : "200px", borderRadius : "5px", margin : "20px"}}>
+            return <Link to ="/detail-book" style={{textDecoration : "none"}}><div className="card" style={{color : "black", width : "200px", borderRadius : "5px", margin : "20px"}}>
               <div className="img">
                 <img src={item.bookImg} alt="" style={{width : "100%"}}/>
               </div>
@@ -39,6 +39,7 @@ let { data: books } = useQuery('booksCache', async () => {
                 <p>{item.price}</p>
               </div>
             </div>
+            </Link>
           })}  
         </div>
     </div>

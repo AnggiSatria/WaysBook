@@ -1,37 +1,40 @@
 import React from 'react'
 import img from "../../assets/img/contoh2.jpg"
 
-function Card() {
+function Card(props) {
+
+    console.log(props);
+
   return (
     <div style={{display : "flex"}}>
         <div className="left" style={{display : "flex" ,flex : "50%", justifyContent : "flex-end", marginRight : "1%"}}>
-            <img src={img} alt="" style={{width : "400px", borderRadius : "5px"}}/>
+            <img src={props.bookImg} alt="" style={{width : "400px", borderRadius : "5px"}}/>
         </div>
         
         <div className="right" style={{display : 'flex' ,flex : "50%", flexDirection : 'column', marginLeft : "1%", height : "400px"}}>
             <div className="tittle" >
-                <h2 style={{wordWrap : "break-word"}}>Her Secret</h2>
-                <p style={{wordWrap : "break-word"}}>By Diah Martiana</p>
+                <h2 style={{wordWrap : "break-word"}}>{props.title}</h2>
+                <p style={{wordWrap : "break-word"}}>{props.author}</p>
             </div>
 
             <div className="Publication" style={{marginTop : "30px"}}>
                 <h4>Publication Date</h4>
-                <p>20 Juni 2021</p>
+                <p>{props.year}</p>
             </div>
 
             <div className="page" style={{marginTop : "30px"}}>
                 <h4>Pages</h4>
-                <p>300</p>
+                <p>{props.pages}</p>
             </div>
 
             <div className="code" style={{marginTop : "30px"}}>
                 <h4 style={{color : "rgba(222, 55, 40, 0.9)"}}>ISBN</h4>
-                <p style={{wordWrap : "break-word"}}>99999991777777</p>
+                <p style={{wordWrap : "break-word"}}>{props.ISBN}</p>
             </div>
 
             <div className="price" style={{marginTop : "30px"}}>
                 <h4>Price</h4>
-                <p style={{color : "rgba(65, 222, 40, 0.85)"}}>Rp.500.000,-</p>
+                <p style={{color : "rgba(65, 222, 40, 0.85)"}}>{props.price}</p>
             </div>
         </div>
     </div>

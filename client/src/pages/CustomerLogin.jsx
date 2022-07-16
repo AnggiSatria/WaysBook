@@ -4,7 +4,7 @@ import IMG from '../../src/assets/img/background.png'
 function CustomerLogin() {
 
     document.body.style.backgroundImage = IMG;
-  document.body.style.backgroundColor="#fff"
+    document.body.style.backgroundColor="#fff"
 
   return (
     <div>

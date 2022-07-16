@@ -6,12 +6,68 @@ import "../assets/css/bg.css"
 import { useState } from 'react'
 import { Modal } from "react-bootstrap"
 import IMG from '../../src/assets/img/background.png'
+import { useQuery } from 'react-query'
+import { API } from "../config/api"
+import { useParams } from 'react-router-dom'
+import { useEffect } from "react"
 
 function DetailBook() {
 
+  let { id } = useParams()
+
+  console.log(id)
+  
+  const [lgShow, setLgShow] = useState(false)
+  const [isBuy, setIsBuy] = useState(false);
+  const [alerts, setAlerts] = useState(false);
+  const [dtlBook, setDtlBook] = useState({});
+
+  let { data: book } = useQuery('bookCache', async () => {
+      const response = await API.get('/book/' + id);
+      console.log(response);
+      return response.data.data.book;
+  });
+
+  console.log(book);
+
+  const setAddCart = () => {
+    try {
+
+        // Configuration Content-type
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+            },
+        };
+
+        const response = API.post('/cart', { idProduct: id }, config)
+        console.log(response);
+        setAlerts(true);
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const getPurchased = async () => {
+    try {
+        const response = await API.get('/purchased/' + id)
+        // console.log(response);
+        if (response.data.purBook) {
+            setIsBuy(true)
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+useEffect(() => {
+    setDtlBook(book)
+    getPurchased()
+}, []);
+
   document.body.style.backgroundImage = IMG;
 
-  const [lgShow, setLgShow] = useState(false)
 
   return (
     <div>
@@ -20,7 +76,7 @@ function DetailBook() {
       </div>
 
         <div className="book" style={{minHeight : "93vh", marginLeft : "10%", marginRight : "10%"}}>
-          <Card/>
+          <Card bookImg={book?.bookImg} title={book?.title} year={book?.year} author={book?.author} Pages={book?.pages} ISBN={book?.ISBN} price={book?.price}/>
 
           <div className="modal">
             <Modal
@@ -35,7 +91,7 @@ function DetailBook() {
             </Modal>
         </div>
 
-          <About setLgShow={setLgShow}/>
+          <About setLgShow={setLgShow} desc={book?.desc} addCart={setAddCart}/>
         </div>
           
     </div>

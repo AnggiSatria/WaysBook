@@ -10,6 +10,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import img from "../../assets/img/contoh.jpg"
 import Img from "../../assets/img/contoh2.jpg"
+import { API } from "../../config/api"
+import { useQuery } from "react-query"
 
 function SlideBook(props) {
 
@@ -48,15 +50,12 @@ function SlideBook(props) {
         ]
     };
 
-    const card = [
-      {
-        img : Img,
-        tittle : "Her Secret",
-        creator : 'By Diah Martiana',
-        desc : 'lorem',
-        price : 'Rp. 500.000,-',
-      },
-    ]
+
+    let { data: promobooks } = useQuery('promobooksCache', async () => {
+      const response = await API.get('/promo-books');
+      // console.log(response);
+      return response.data.data.promoBooks;
+  });
 
   return (
     <div>
@@ -66,18 +65,18 @@ function SlideBook(props) {
 
         <div className="slider" style={{marginTop : "80px"}}>
         <Slider {...settings}>
-          {card.map((value) => {
+          {promobooks?.map((item, index) => {
             return <div style={{display : "flex", width : "100%"}}>
               <div className="all" style={{display : "flex", flex : "50%"}}>
                   <div className="img" style={{display : "flex", marginLeft : "1%", marginRight : "1%"}}>
-                    <img src={value.img} alt="" style={{width : '150px'}}/>
+                    <img src={item.bookImg} alt="" style={{width : '150px'}}/>
                   </div>
 
                   <div className="card" style={{display : "flex", width : '180px', marginLeft : "1%", marginRight : "1%", border : "none"}}>
-                    <h5 style={{color : "black", wordWrap : 'break-word'}}>{value.tittle}</h5>
-                    <p>{value.creator}</p>
-                    <p style={{wordWrap : "break-word"}}>{value.desc}</p>
-                    <h5 style={{color : "black"}}>{value.price}</h5>
+                    <h5 style={{color : "black", wordWrap : 'break-word'}}>{item.title}</h5>
+                    <p>{item.author}</p>
+                    <p style={{wordWrap : "break-word"}}>{item.desc}</p>
+                    <h5 style={{color : "black"}}>{item.price}</h5>
                     <Button onClick={props.setLgShow} variant="contained" color="inherit">Add To Cart</Button>
                   </div>
               </div>           

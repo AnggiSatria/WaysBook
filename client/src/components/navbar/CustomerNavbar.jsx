@@ -34,11 +34,13 @@ function CustomerNavbar() {
 
     const [state, dispatch] = useContext(UserContext)
 
-  const navigate = useNavigate();
+    console.log(state);
 
-  const profile = () => {
-    navigate('/profile')
-  }
+    const navigate = useNavigate();
+
+    const profile = () => {
+        navigate('/profile')
+    }
 
   const complain = () => {
     navigate('/complain')

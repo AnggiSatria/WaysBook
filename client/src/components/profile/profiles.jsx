@@ -1,35 +1,60 @@
-import React from 'react'
+import React, { useEffect } from "react"
 import IMG from "../../assets/img/email.png"
 import IMG2 from "../../assets/img/gender.png"
 import IMG3 from "../../assets/img/contact.png"
 import IMG4 from "../../assets/img/location.png"
 import IMG5 from "../../assets/img/avatar.PNG"
 import { Box, TextField } from '@mui/material'
+import { useContext } from "react"
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Modal, Form, Row, Col } from "react-bootstrap"
 import { Button } from "react-bootstrap"
 import cssModule from "../../assets/css/EditProfile.module.css"
+import { API } from "../../config/api"
+import { useMutation, useQuery } from "react-query"
+import { UserContext } from "../../context/userContext"
 
 function Profiles() {
 
+    const [state, dispacth] = useContext(UserContext);
     const [editProfile, setEditProfile] = useState(false);
     const handleClose = () => setEditProfile(false);
     const handleShow = () => setEditProfile(true);
-
+    const [profile, setProfile] = useState({}) //Store profile data
     const [preview, setPreview] = useState(null); //For image preview
+
+    const user = state.user.email
+
 
     const [form, setForm] = useState({
         gender: '',
         phone: '',
         address: '',
-        image: ''
+        avatar: ''
     });
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log(form);
-    }
+    let { data: profileData } = useQuery("profileCache", async () => {
+        const response = await API.get("/profile");
+        console.log(response.data.data.profile);
+        return response.data.data.profile
+    })
+
+    console.log(profileData);
+
+    useEffect(() => {
+        if (profileData) {
+            setPreview(profileData.avatar)
+            setForm({
+                ...form,
+                phone: profileData.phone,
+                gender: profileData.gender,
+                address: profileData.address,
+            })
+            setProfile(profileData)
+        }
+    }, [profileData]);
+
 
     const handleChange = (e) => {
         setForm({
@@ -37,7 +62,41 @@ function Profiles() {
           [e.target.name]:
             e.target.type === 'file' ? e.target.files : e.target.value,
         });
+
+        if (e.target.type === 'file') {
+            let url = URL.createObjectURL(e.target.files[0])
+            setPreview(url)
+        }
     }
+
+    const handleSubmit = useMutation(async (e) => {
+        try {
+            e.preventDefault()
+
+            // Configuration
+            const config = {
+                headers: {
+                    'Content-type': 'multipart/form-data',
+                },
+            }
+
+            // Store data with FormData as object
+            const formData = new FormData()
+            if (form.avatar) {
+                formData.set('avatar', form?.avatar[0], form?.avatar[0]?.name)
+            }
+            formData.set('gender', form.gender)
+            formData.set('phone', form.phone)
+            formData.set('address', form.address)
+            console.log('isi form:', form);
+            // Insert profile data
+            const response = await API.patch('/profile', formData, config)
+            console.log(response)
+            handleClose()
+        } catch (error) {
+            console.log(error)
+        }
+    })
 
   return (
     <div>
@@ -52,7 +111,7 @@ function Profiles() {
                         </div>
                         
                         <div className="teks" style={{marginLeft : "10px"}}>
-                            <h6>anggisatria122@gmail.com</h6>
+                            <h6>{user}</h6>
                             <p>Email</p>
                         </div>
                     </div>
@@ -62,8 +121,8 @@ function Profiles() {
                         </div>
                         
                         <div className="teks" style={{marginLeft : "10px"}}>
-                            <h6>anggisatria122@gmail.com</h6>
-                            <p>Email</p>
+                            <h6>{profileData?.gender}</h6>
+                            <p>Gender</p>
                         </div>
                     </div>
                     <div className="contact" style={{display : "flex"}}>
@@ -72,8 +131,8 @@ function Profiles() {
                         </div>
                         
                         <div className="teks" style={{marginLeft : "10px"}}>
-                            <h6>anggisatria122@gmail.com</h6>
-                            <p>Email</p>
+                            <h6>{profileData?.phone}</h6>
+                            <p>Phone</p>
                         </div>
                     </div>
                     <div className="location" style={{display : "flex"}}>
@@ -82,8 +141,8 @@ function Profiles() {
                         </div>
                         
                         <div className="teks" style={{marginLeft : "10px"}}>
-                            <h6>anggisatria122@gmail.com</h6>
-                            <p>Email</p>
+                            <h6>{profileData?.address}</h6>
+                            <p>Location</p>
                         </div>
                     </div>
                 </div>
@@ -91,7 +150,7 @@ function Profiles() {
                 <div className="right" style={{display : 'flex', flex : "1", flexDirection : "column"}}>
                     <div className="content" style={{justifyContent : "center", display : "flex", flexDirection : "column", margin : "auto"}}>
                         <div className="img">
-                            <img src={IMG5} alt="" width={200}/>
+                            <img src={profileData?.avatar} alt="" width={200}/>
                         </div>
                     
                         <Button onClick={handleShow} variant='danger' style={{width : "100%"}}>Edit Profile</Button>
@@ -102,7 +161,7 @@ function Profiles() {
           
             <Modal.Body style={{padding : "20px"}}>
               <h1>Edit Profile</h1>
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={(e) => handleSubmit.mutate(e)}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Box
               component="form"
@@ -113,11 +172,41 @@ function Profiles() {
               autoComplete="off"
               
             >
-              <TextField name='gender' value={form.gender} onChange={handleChange} id="outlined-basic" label="Gender" variant="outlined" style={{width : "96%"}}/>
 
-              <TextField name='phone' value={form.phone} onChange={handleChange} id="outlined-basic" label="Phone" variant="outlined" style={{width : "96%"}}/>
+            {preview && (
+                                <div>
+                                    <img
+                                        src={preview}
+                                        style={{
+                                            maxWidth: '150px',
+                                            maxHeight: '150px',
+                                            objectFit: 'cover',
+                                            marginBottom: '5px',
+                                            borderRadius: '10%',
+                                            
+                                        }}
+                                        alt="preview"
+                                    />
+                                </div>
+            )}
+                            <input
+                                type="file"
+                                className="form-control bg-transparent border-0 text-white"
+                                id="upload"
+                                name="avatar"
+                                accept='image/*'
+                                onChange={handleChange}
+                                hidden
+                            />
+                            <label for="upload" className="labelUploadProfile" style={{border : "1px solid black", width : "130px", height : "40px", textAlign : "center", borderRadius : "5px", alignItems : "center", backgroundColor : "red"}}>
+                                Upload File
+                            </label>
 
-              <TextField name='address' value={form.address} onChange={handleChange} id="outlined-basic" label="Address" variant="outlined" style={{width : "96%"}}/>   
+              <TextField name='gender' value={form?.gender} onChange={handleChange} id="outlined-basic" label="Gender" variant="outlined" style={{width : "96%"}}/>
+
+              <TextField name='phone' value={form?.phone} onChange={handleChange} id="outlined-basic" label="Phone" variant="outlined" style={{width : "96%"}}/>
+
+              <TextField name='address' value={form?.address} onChange={handleChange} id="outlined-basic" label="Address" variant="outlined" style={{width : "96%"}}/>   
             
             </Box>
 
