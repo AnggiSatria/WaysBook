@@ -22,7 +22,7 @@ let { data: books } = useQuery('booksCache', async () => {
 
         <div className="cards" style={{marginLeft : "10%", marginRight : "10%", display : "flex", flexWrap : "wrap", marginTop : '20px'}}>      
           {books?.map((item, index) => {
-            return <Link to ="/detail-book" style={{textDecoration : "none"}}><div className="card" style={{color : "black", width : "200px", borderRadius : "5px", margin : "20px"}}>
+            return <Link to ={`/detail-book/${item.id}`} style={{textDecoration : "none"}}><div className="card" style={{color : "black", width : "200px", borderRadius : "5px", margin : "20px"}}>
               <div className="img">
                 <img src={item.bookImg} alt="" style={{width : "100%"}}/>
               </div>

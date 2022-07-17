@@ -10,7 +10,7 @@ import Transaction from "./pages/transaction";
 import AdminNavbar from "./components/navbar/AdminNavbar";
 import AdminComplain from "./pages/AdminComplain";
 import CustomerLogin from "./pages/CustomerLogin";
-// import UpdateBook from "./pages/updateBook";
+import UpdateBook from "./pages/updateBook";
 
 import { API, setAuthToken } from './config/api'
 import { useContext, useEffect } from 'react'
@@ -76,19 +76,15 @@ function App() {
       <Routes>
       <Route path="/" element={<LandingPage/>}/>
      
-        <Route path="/detail-book" element={<DetailBook/>}/>
+        <Route path="/detail-book/:id" element={<DetailBook/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/cart" element={<Cart/>}/>
         <Route path="/customer-login" element={<CustomerLogin/>}/>
         <Route path="/complain" element={<Complain/>}/>
-      
-        
+        <Route path="/updated-book" element={<UpdateBook/>}/>        
         <Route path="/transaction" element={<Transaction/>}/>
         <Route path="/add-book" element={<AddBook/>}/>
         <Route path="/admin-complain" element={<AdminComplain/>}/>
-        <Route path="/public" element={<AdminNavbar/>}/>
-        {/* <Route path="/update-book" element={<UpdateBook/>}/> */}
-       
       </Routes>
 
   );
