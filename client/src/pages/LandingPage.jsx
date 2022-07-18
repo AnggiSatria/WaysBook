@@ -4,7 +4,7 @@ import PublicNavbar from "../components/navbar/PublicNavbar"
 import CustomerNavbar from "../components/navbar/CustomerNavbar"
 import { useState, useContext, } from 'react'
 import { useEffect } from 'react'
-import {  useNavigate } from 'react-router-dom'
+import {  useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from "../../src/context/userContext";
 import { API } from "../../src/config/api";
 import SlideBook from '../components/landing page/SlideBook'
@@ -21,6 +21,8 @@ function LandingPage() {
   let navigate = useNavigate();
 
   const [state, dispatch] = useContext(UserContext);
+
+  console.log(state);
   
   const [message, setMessage] = useState(null);
 
@@ -29,6 +31,8 @@ function LandingPage() {
 
   const [show, setShow] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+
+  const { id } = useParams()
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

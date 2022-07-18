@@ -23,7 +23,7 @@ function DetailBook() {
   const [dtlBook, setDtlBook] = useState({});
 
   let { data: book } = useQuery('bookCache', async () => {
-      const response = await API.get('/book/' + id);
+      const response = await API.get(`/book/${id}`);
       console.log(response);
       return response.data.data.book;
   });
@@ -51,7 +51,7 @@ function DetailBook() {
 
 const getPurchased = async () => {
     try {
-        const response = await API.get('/purchased/' + id)
+        const response = await API.get(`/purchased/ ${id}`)
         // console.log(response);
         if (response.data.purBook) {
             setIsBuy(true)

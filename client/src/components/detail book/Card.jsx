@@ -3,6 +3,8 @@ import img from "../../assets/img/contoh2.jpg"
 
 function Card(props) {
 
+    const id = props.id
+
     console.log(props);
 
   return (
