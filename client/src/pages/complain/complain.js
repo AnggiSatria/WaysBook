@@ -2,30 +2,30 @@
 import React, { useState, useEffect, useContext } from 'react'
 
 import { Container, Row, Col } from 'react-bootstrap'
-
+import Contact from '../../components/complain/contact'
 
 // import here
-import Chat from '../components/complain/Chat'
-import Contact from '../components/complain/Contact'
-import CustomerNavbar from '../components/navbar/CustomerNavbar'
+import Chat from '../../components/complain/chat'
 
-import { UserContext } from '../context/userContext'
+import { UserContext } from '../../context/userContext'
 
-// import socket.io-client 
-import { io } from 'socket.io-client'
+// import socket.io-client
+import {io} from 'socket.io-client'
+import Nav from "../../components/navbar/CustomerNavbar";
 
 // initial variable outside socket
 let socket
-export default function ComplainUser() {
+export default function Complain() {
     const [contact, setContact] = useState(null)
     const [contacts, setContacts] = useState([])
     // code here
     const [messages, setMessages] = useState([])
 
+
     // code here
     const [state] = useContext(UserContext)
 
-    useEffect(() => {
+    useEffect(() =>{
         socket = io('http://localhost:5000', {
             auth: {
                 token: localStorage.getItem("token")
@@ -75,13 +75,13 @@ export default function ComplainUser() {
     // code here
     const loadMessages = () => {
         socket.on('messages', async (data) => {
-            if (data.length > 0) {
+            if(data.length > 0){
                 const dataMessages = data.map((item) => ({
                     idSender: item.sender.id,
                     message: item.message
                 }))
                 setMessages(dataMessages)
-            } else {
+            }else{
                 setMessages([])
                 loadContact()
             }
@@ -89,7 +89,7 @@ export default function ComplainUser() {
     }
 
     const onSendMessage = (e) => {
-        if (e.key == "Enter") {
+        if(e.key == "Enter"){
             const data = {
                 idRecipient: contact.id,
                 message: e.target.value
@@ -102,21 +102,17 @@ export default function ComplainUser() {
 
     return (
         <>
-            <div>
-                <div className="backgroundImageFull">
-                    <CustomerNavbar />
-                    <Container fluid style={{ height: '89.5vh', paddingLeft:"100px", paddingRight:"100px" }}>
-                        <Row>
-                            <Col md={3} style={{ height: '89.5vh' }} className="px-3 overflow-auto">
-                                <Contact style={{backgroundColor: "#dfdfdf", borderRadius: "5px"}} dataContact={contacts} clickContact={onClickContact} contact={contact} />
-                            </Col>
-                            <Col md={9} style={{ height: '89.5vh', backgroundColor: "#dfdfdf", borderRadius: "5px" }} className="px-3 overflow-auto">
-                                <Chat contact={contact} messages={messages} user={state.user} sendMessage={onSendMessage} />
-                            </Col>
-                        </Row>
-                    </Container>
-                </div>
-            </div>
+            <Nav />
+            <Container style={{height: '80.5vh' }} className="">
+                <Row>
+                    <Col md={3} className="px-3 mx-3 rounded-3 overflow-auto bg-grey-light">
+                        <Contact dataContact={contacts} clickContact={onClickContact} contact={contact}/>
+                    </Col>
+                    <Col md={8} style={{height: '75.5vh'}} className="px-3 rounded-3 overflow-auto bg-grey-base">
+                        <Chat contact={contact} messages={messages} user={state.user} sendMessage={onSendMessage}  />
+                    </Col>
+                </Row>
+            </Container>
         </>
     )
 }

@@ -1,5 +1,7 @@
 import React from 'react'
+import { useQuery } from 'react-query';
 import IMG from "../../assets/img/contoh2.jpg"
+import { API } from '../../config/api';
 import img from "..//../assets/img/sampah.png"
 
 function Left() {
@@ -29,7 +31,7 @@ function Left() {
             return <div className="card" style={{width : "100%", display : "flex" , border : "none", marginTop : "10px"}}>
             <div className="all" style={{display : 'flex'}} >
                 <div className="img" style={{display : 'flex', flex : "25%"}}>
-                    <img src={value.img} alt="" width={100}/>
+                    <img src={value.img} alt="" width={100} />
                 </div>
 
                 <div className="content" style={{flex : "50%"}}>

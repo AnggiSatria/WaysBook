@@ -1,8 +1,9 @@
 import React from 'react'
 import "../../assets/css/bg.css"
 import { Button } from "react-bootstrap"
+import { API } from "../../config/api"
 
-function Right() {
+function Right(props) {
   return (
     <div style={{width : "100%", marginTop : "88px"}}>
         
@@ -15,8 +16,8 @@ function Right() {
             </div>
 
             <div className="price" >
-                <p>Rp.500.000,-</p>
-                <p style={{marginTop : "30px"}}>2</p>
+                <p>{props?.subTotal}</p>
+                <p style={{marginTop : "30px"}}>{props.qty}</p>
             </div>
         </div>
 
@@ -28,12 +29,12 @@ function Right() {
             </div>
             
             <div className="price2">
-                <p style={{color : "rgba(30, 217, 30, 0.8)"}}>Rp. 500.000,</p>
+                <p style={{color : "rgba(30, 217, 30, 0.8)"}}>{props?.total}</p>
             </div>
         </div>
 
         <div className="button" style={{width : "100%", display : "flex", justifyContent : "flex-end", textAlign : "center", marginTop : "30px"}}>
-            <Button variant="dark" style={{display : 'flex', width : "50%", textAlign : "center"}}>Pay</Button>
+            <Button onClick={props?.handlePay} variant="dark" style={{display : 'flex', width : "50%", textAlign : "center"}}>Pay</Button>
         </div>
         
     </div>

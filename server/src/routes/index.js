@@ -49,7 +49,7 @@ router.post("/book", auth, uploadFiles("bookPdf", "bookImg"), addBooks)
 //== Cart ===
 router.post("/cart", addCart)
 router.delete("/cart/:id", deleteCart)
-router.get("carts", getCart)
+router.get("/carts", getCart)
 
 //== Profile ==
 router.get("/profile", auth, getProfile);

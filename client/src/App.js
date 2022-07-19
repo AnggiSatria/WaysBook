@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
 import AddBook from "./pages/AddBook";
 import Cart from "./pages/cart";
-import Complain from "./pages/Complain";
+import Complain from "./pages/complain/complain";
 import DetailBook from "./pages/DetailBook";
 import LandingPage from "./pages/LandingPage";
 import Profile from "./pages/profile";
 import Transaction from "./pages/transaction";
 // import PublicNavbar from "./components/navbar/PublicNavbar";
 import AdminNavbar from "./components/navbar/AdminNavbar";
-import AdminComplain from "./pages/AdminComplain";
+import AdminComplain from "./pages/complain/admincomplain";
 import CustomerLogin from "./pages/CustomerLogin";
 import UpdateBook from "./pages/updateBook";
 
