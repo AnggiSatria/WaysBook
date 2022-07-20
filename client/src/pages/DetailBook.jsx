@@ -17,7 +17,7 @@ function DetailBook() {
 
   console.log(id)
   
-  const [lgShow, setLgShow] = useState(false)
+  
   const [isBuy, setIsBuy] = useState(false);
   const [alerts, setAlerts] = useState(false);
   const [dtlBook, setDtlBook] = useState({});
@@ -78,20 +78,7 @@ useEffect(() => {
         <div className="book" style={{minHeight : "93vh", marginLeft : "10%", marginRight : "10%"}}>
           <Card bookImg={book?.bookImg} title={book?.title} year={book?.year} author={book?.author} Pages={book?.pages} ISBN={book?.ISBN} price={book?.price}/>
 
-          <div className="modal">
-            <Modal
-            size="lg"
-            show={lgShow}
-            onHide={() => setLgShow(false)}
-            aria-labelledby="example-modal-sizes-title-lg"
-            style={{}}
-          >
-
-              <Modal.Body style={{textAlign : "center", color : "rgba(65, 222, 40, 0.85)", background : "transparent"}}>This Product Is Sucessfully Added To Cart</Modal.Body>
-            </Modal>
-        </div>
-
-          <About setLgShow={setLgShow} desc={book?.desc} addCart={setAddCart}/>
+          <About desc={book?.desc} addCart={setAddCart} id={id}/>
         </div>
           
     </div>

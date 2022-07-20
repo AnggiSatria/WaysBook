@@ -183,6 +183,11 @@ if (state.user.role == "admin") {
 
   const [lgShow, setLgShow] = useState(false)
 
+  const books = () => {
+    setLgShow()
+    navigate('/books')
+  }
+
   return (
     <div>
       <div className="navbar" style={{display : "flex", height : "7vh"}}>
@@ -288,7 +293,7 @@ if (state.user.role == "admin") {
         </div>
 
         <div className="slider" style={{marginLeft : "1%", marginRight : "1%"}}>
-          <SlideBook setLgShow={setLgShow}/>
+          <SlideBook setLgShow={books}/>
         </div>
 
         <div className="listBook" style={{marginTop : "50px"}}>

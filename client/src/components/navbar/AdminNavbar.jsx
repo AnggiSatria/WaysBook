@@ -44,7 +44,7 @@ function AdminNavbar() {
   const navigate = useNavigate()
 
   const addBook = () => {
-    navigate('/add-book')
+    navigate('/books')
   }
 
   const complain = () => {
