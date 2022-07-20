@@ -35,7 +35,7 @@ const Books = () => {
 
     const deleteById = useMutation(async (id) => {
         try {
-            await API.delete(`/book/${id}`);
+            await API.delete(`/delete-book/${id}`);
             await refetch();
         } catch (error) {
             console.log(error);

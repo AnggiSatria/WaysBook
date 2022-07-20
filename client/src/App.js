@@ -16,6 +16,7 @@ import { API, setAuthToken } from './config/api'
 import { useContext, useEffect } from 'react'
 import { UserContext } from './context/userContext';
 import ListBook from "./pages/listBook";
+import EditBook from "./pages/EditBook";
 
 // init token on axios every time the app is refreshed
 if (localStorage.token) {
@@ -86,6 +87,7 @@ function App() {
         <Route path="/transaction" element={<Transaction/>}/>
         <Route path="/add-book" element={<AddBook/>}/>
         <Route path="/books" element={<ListBook/>} />
+        <Route path="/edit-book/:id" element={<EditBook/>} />
         <Route path="/admin-complain" element={<AdminComplain/>}/>
       </Routes>
 
